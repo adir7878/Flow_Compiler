@@ -1,4 +1,2 @@
 int x -> 5;
 int y -> x + 3;
-anfpa[MW[FM[mwfa
-apgfnwIFN[mf[w]]]]]
