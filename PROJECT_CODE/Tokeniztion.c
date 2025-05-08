@@ -4,7 +4,6 @@
 
 LLL_List *TokenizeCode(FILE **sourceCode, Graph *DFA){
     //TODO: Implement the function to tokenize the source code using the DFA
-    // Initialize the linked list to store tokens
 }
 
 Vertex *nextState(Vertex *current, char symbol) {

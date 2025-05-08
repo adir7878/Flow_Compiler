@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 
 typedef enum{
@@ -55,7 +56,9 @@ typedef enum TOKEN_CODE{
     TOKEN_RBRACE,     // }
     TOKEN_LBRACKET,   // [
     TOKEN_RBRACKET,   // ]
-    TOKEN_ARROW,      // ->
+    TOKEN_LPAREN,     // (
+    TOKEN_RPAREN,     // )
+    TOKEN_ASSIGN,      // ->
     TOKEN_COMMA,      // ,
 
     // Constants
@@ -64,7 +67,7 @@ typedef enum TOKEN_CODE{
     TOKEN_FALSE,      // false
 
     // Identifier and EOF
-    TOKEN_IDENTIFIER, // identifier
+    TOKEN_IDENTIFIER // identifier
 } TOKEN_CODE;
 
 typedef enum TOKEN_CATEGORY{

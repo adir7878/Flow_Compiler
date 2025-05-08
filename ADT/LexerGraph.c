@@ -10,7 +10,7 @@ typedef struct Edge{
 
 typedef struct Vertex{
     int id; // Vertex ID
-    Token token; // Token associated with the vertex if the vertx is in accepting state
+    Token* token; // Token associated with the vertex if the vertx is in accepting state
     State state; // State of the vertex
     Edge *edge; // Pointer to the edges of the vertex
 }Vertex;
@@ -22,12 +22,19 @@ typedef struct Graph{
 }Graph;
 
 
-Vertex* createVertex(State state, Token token) {
+Vertex* createVertex(State state, Token* token, Graph* graph) {
     Vertex* v = malloc(sizeof(Vertex));
     v->id = globalVertexID++;
     v->state = state;
     v->token = token;
     v->edge = NULL;
+
+    if(graph != NULL){
+        graph->vertices = realloc(graph->vertices, sizeof(Vertex) * (graph->numVertices + 1));
+        graph->vertices[graph->numVertices] = *v; // Copy the vertex into the graph's vertices array
+        graph->numVertices++;
+    }
+    
     return v;
 }
 
@@ -38,6 +45,14 @@ Edge* createEdge(char symbol, Vertex* dest) {
     e->left = NULL;
     e->right = NULL;
     return e;
+}
+
+Graph* createGraph() {
+    Graph* g = malloc(sizeof(Graph));
+    g->vertices = NULL;
+    g->startVertex = NULL;
+    g->numVertices = 0;
+    return g;
 }
 
 void addEdge(Vertex* v, char symbol, Vertex* dest) {
