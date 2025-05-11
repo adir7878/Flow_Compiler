@@ -55,15 +55,32 @@ Graph* createGraph() {
     return g;
 }
 
-void addEdge(Vertex* v, char symbol, Vertex* dest) {
-    //TODO: Implement the function to add an edge to the vertex
+void insertEdge(Edge* root, Edge* newEdge){
+    if (!root) {
+        return newEdge;
+    }
+    if (newEdge->symbol < root->symbol) {
+        root->left  = insertEdgeNode(root->left,  newEdge);
+    }else if (newEdge->symbol > root->symbol) {
+        root->right = insertEdgeNode(root->right, newEdge);
+    }else {
+        // already exists, free the new edge
+        free(newEdge);
+    }
+    return root;
 }
 
-Vertex *findNext(Edge *e, char symbol) {
+void addEdge(Vertex* v, char symbol, Vertex* dest) {
+    Edge *newEdge = createEdge(symbol, dest);
+    insertEdge(v->edge, newEdge);
+}
+
+
+Edge *findNext(Edge *e, char symbol) {
     if (e == NULL) {
         return NULL;
     }else if (symbol == e->symbol) {
-        return e->dest;
+        return e;
     }else if (symbol < e->symbol) {
         return findNext(e->left, symbol);
     }else {

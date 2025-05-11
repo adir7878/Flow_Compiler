@@ -1,20 +1,26 @@
+#pragma once
+
 #include "../ADT/LexerGraph.c"
 #include "../ADT/Token.c"
 
 void AddLexerConnectedComponent(Token *token, Graph *DFA){
     Vertex *current = DFA->startVertex,
-           *newVertex = NULL,
-           *next = NULL;
-
+           *newVertex = NULL;
+    Edge *nextPath = NULL;
     char *lexeme = token->lexeme;
+
     while (*(lexeme)){
-        next = findNext(current->edge, *lexeme);
-        if (next == NULL){
+        nextPath = findNext(current->edge, *lexeme);
+        if (nextPath == NULL){
             newVertex = createVertex(Intermediate, NULL, DFA);
             addEdge(current, *lexeme, newVertex);
             current = newVertex;
+        }else if(nextPath->dest->state == Trap){
+            newVertex = createVertex(Intermediate, NULL, DFA);
+            nextPath->dest = newVertex;
+            current = newVertex;            
         }else{
-            current = next;
+            current = nextPath->dest;
         }
         lexeme++;
     }
@@ -88,8 +94,6 @@ Graph *CreateDFA(){
     // Boolean literals
     AddLexerConnectedComponent(createToken(TOKEN_TRUE, TOKEN_CAT_CONSTANT, "true"), DFA);
     AddLexerConnectedComponent(createToken(TOKEN_FALSE, TOKEN_CAT_CONSTANT, "false"), DFA);
-
-    // TODO: dynamic IDENTIFIER & NUMBER components
 
     return DFA;
 }

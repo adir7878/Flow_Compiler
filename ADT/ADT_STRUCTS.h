@@ -1,6 +1,10 @@
+#pragma once
+
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+
 
 
 typedef enum{
@@ -10,7 +14,7 @@ typedef enum{
 }State;
 
 //Token structure
-typedef enum TOKEN_CODE{
+typedef enum{
     // Data types
     TOKEN_INT,
     TOKEN_SHORT,
@@ -70,7 +74,7 @@ typedef enum TOKEN_CODE{
     TOKEN_IDENTIFIER // identifier
 } TOKEN_CODE;
 
-typedef enum TOKEN_CATEGORY{
+typedef enum{
     TOKEN_CAT_TYPE,             // data types: int, short, long, double, float, char, byte, boolean
     TOKEN_CAT_KEYWORD,          // language keywords: if, elsif, else, until, func, return, blank
     TOKEN_CAT_LOGICAL_OP,       // logical operators: AND, OR, NOT, ==, !=, >, <, >=, <=
@@ -81,7 +85,7 @@ typedef enum TOKEN_CATEGORY{
     TOKEN_CAT_EOF               // end of input
 } TOKEN_CATEGORY;
 
-typedef struct Token{
+typedef struct{
     char *lexeme; // The actual string of the token
     TOKEN_CODE code; // The code of the token
     TOKEN_CATEGORY type; // The type of the token
@@ -89,3 +93,20 @@ typedef struct Token{
 
 
 // Template structure
+// Error handling
+
+typedef enum{
+    NOT_FISNISHED_TOKEN, // The token is not finished yet
+
+} ErrorID;
+
+typedef struct{
+    ErrorID id; // Error ID
+    char *errorMessage; // Error message
+    int lineNumber; // Line number where the error occurred
+} Error;
+
+typedef struct{
+    Error *errors; // Array of errors
+    int numErrors; // Number of errors
+} ErrorTable;
