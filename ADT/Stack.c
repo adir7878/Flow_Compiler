@@ -1,6 +1,5 @@
-#include "ADT_STRUCTS.h"
+#include "../Headers/ADT_STRUCTS.h"
 #include "../Headers/Stack.h"
-#include "Stack.h"
 
 void Stack_Init(Stack *stack, int size) {
     stack->data = malloc(size * sizeof(void*)); // Allocate memory for the stack

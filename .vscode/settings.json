@@ -7,6 +7,8 @@
         "lexergraph.h": "c",
         "lll_node.h": "c",
         "lexergraphbuilder.h": "c",
-        "tokeniztion.h": "c"
-    }
+        "tokeniztion.h": "c",
+        "random": "c",
+        "system_error": "c"
+    }   
 }

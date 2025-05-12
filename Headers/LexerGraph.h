@@ -1,5 +1,5 @@
 #pragma once
-#include "../ADT/ADT_STRUCTS.h"
+#include "ADT_STRUCTS.h"
 
 typedef struct Edge {
     char symbol;
@@ -9,7 +9,7 @@ typedef struct Edge {
 
 typedef struct Vertex {
     int id;
-    TOKEN_CODE *tokenCode;
+    TOKEN_CODE tokenCode;
     State state;
     struct Edge *edge;
 }Vertex;
@@ -22,7 +22,7 @@ typedef struct LexerGraph {
 } LexerGraph;
 
 // No definitions here, only declarations:
-Vertex *createVertex(State state, TOKEN_CODE *tokenCode, LexerGraph *graph);
+Vertex *createVertex(State state, TOKEN_CODE tokenCode, LexerGraph *graph);
 Edge *createEdge(char symbol, Vertex *dest);
 LexerGraph *createGraph(void);
 Edge *insertEdge(Edge *root, Edge *newEdge);

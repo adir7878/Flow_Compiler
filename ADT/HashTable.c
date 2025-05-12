@@ -1,6 +1,6 @@
 #pragma once
 
-#include "ADT_STRUCTS.h"
+#include "../Headers/ADT_STRUCTS.h"
 #include "../Headers/HashTable.h"
 
 /* Compute a bucket index from an integer id */

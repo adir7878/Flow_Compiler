@@ -3,7 +3,7 @@
 
 static int globalVertexID = 0;
 
-Vertex* createVertex(State state, TOKEN_CODE* tokenCode, LexerGraph* graph) {
+Vertex* createVertex(State state, TOKEN_CODE tokenCode, LexerGraph* graph) {
     Vertex* v = malloc(sizeof(Vertex));
     v->id = globalVertexID++;
     v->state = state;

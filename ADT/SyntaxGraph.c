@@ -1,4 +1,4 @@
-#include "ADT_STRUCTS.h"
+#include "../Headers/ADT_STRUCTS.h"
 
 static int globalVertexID = 0; 
 

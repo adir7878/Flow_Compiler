@@ -1,7 +1,10 @@
-#include "../ADT/ADT_STRUCTS.h"
+#pragma once
+
+#include "ADT_STRUCTS.h"
 
 //Token structure
-typedef enum{
+typedef enum TOKEN_CODE{
+    NO_TOKEN,
     // Data types
     TOKEN_INT,
     TOKEN_SHORT,
@@ -61,7 +64,7 @@ typedef enum{
     TOKEN_IDENTIFIER // identifier
 } TOKEN_CODE;
 
-typedef enum{
+typedef enum TOKEN_CATEGORY{
     TOKEN_CAT_TYPE,             // data types: int, short, long, double, float, char, byte, boolean
     TOKEN_CAT_KEYWORD,          // language keywords: if, elsif, else, until, func, return, blank
     TOKEN_CAT_LOGICAL_OP,       // logical operators: AND, OR, NOT, ==, !=, >, <, >=, <=
@@ -72,10 +75,10 @@ typedef enum{
     TOKEN_CAT_EOF               // end of input
 } TOKEN_CATEGORY;
 
-typedef struct{
+typedef struct Token{
     char *lexeme; // The actual string of the token
-    TOKEN_CODE* code; // The code of the token
-    TOKEN_CATEGORY *type; // The type of the token
+    TOKEN_CODE code; // The code of the token
+    TOKEN_CATEGORY type; // The type of the token
 } Token;
 
 Token *createToken(TOKEN_CODE code, TOKEN_CATEGORY category, char *lexeme);

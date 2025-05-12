@@ -1,9 +1,12 @@
 
+#include "../Headers/ADT_STRUCTS.h"
 #include "../Headers/LexerGraphBuilder.h"
 #include "../Headers/LLL_Node.h"
 #include "../Headers/Tokeniztion.h"
 
 static void initializeSymbolTable(){
+
+    printf("Initializing symbol table...\n");
     symbolTable = createHashTable(100);
 
     hashTableInsert(symbolTable, TOKEN_INT, createToken(TOKEN_INT, TOKEN_CAT_TYPE, "int"));
@@ -52,6 +55,8 @@ static void initializeSymbolTable(){
 }
 
 static void initializeErrorTable(){
+
+    printf("Initializing error table...\n");
     ErrorTable = createHashTable(100);
 }
 
@@ -59,17 +64,21 @@ int main(){
 
     LexerGraph *DFA;
     LLL_List *tokens;
-    FILE *sourceCode = fopen("../TestFiles/test_1.txt", "r");
+    FILE *sourceCode = fopen("C:\\Users\\adir7\\Flow_Compiler\\TestFiles\\test_1.txt", "r");
     if (sourceCode == NULL) {
         fprintf(stderr, "Error opening file\n");
         return 1;
+    }else{
+        printf("File opened successfully\n");
     }
 
     // Initialize the symbol table and error table
     initializeSymbolTable();
     initializeErrorTable();
 
-    DFA = CreateDFA();
+    printf("%s", ((Token*)(hashTableSearch(symbolTable, TOKEN_INT)))->lexeme);
+    
+    DFA = CreateDFA(symbolTable);
     tokens = TokenizeCode(sourceCode, DFA);
 
     while(tokens != NULL){
