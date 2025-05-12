@@ -27,19 +27,15 @@ void AddLexerConnectedComponent(Token* token, LexerGraph *DFA){
            *newVertex = NULL;
     Edge *nextPath = NULL;
     char *lexeme = token->lexeme;
-    printf("Adding connected component for token %c\n", token->lexeme);
+    printf("Adding connected component for token %s\n", token->lexeme);
 
     while (*(lexeme)){
-        printf("1");
         nextPath = findNext(current->edge, *lexeme);
-        printf("2");
         if (nextPath == NULL){
-            printf("3");
             newVertex = createVertexWithIdenifierEdges(DFA, lexeme);
             addEdge(current, *lexeme, newVertex);
             current = newVertex;
         }else if(nextPath->dest->state == Trap || nextPath->dest == DFA->identifierVertex){
-            printf("4");
             newVertex = createVertexWithIdenifierEdges(DFA, lexeme);
             nextPath->dest = newVertex;
             current = newVertex;
@@ -79,74 +75,67 @@ This DFA is initialized with a start vertex and populated with connected compone
 categories, including keywords, logical operators, types, arithmetic operators, assignment symbols, delimiters, and boolean literals.
 with a placeholder for dynamic components like identifiers and numbers.
 */
-LexerGraph *CreateDFA(HashTable *symbolTable){
-
+LexerGraph *CreateDFA(HashTable *symbolTable) {
     printf("init DFA...\n");
     LexerGraph *DFA = createGraph();
     DFA->startVertex = createVertex(Intermediate, NO_TOKEN, DFA);
     initIdenifierSubgraph(DFA);
 
-    
     printf("init DFA done\n");
     printf("Adding connected components...\n");
-    // Keywords
 
-    printf("%d", ((Token*)(hashTableSearch(symbolTable, TOKEN_INT)))->code);
-    AddLexerConnectedComponent(((Token*)(hashTableSearch(symbolTable, TOKEN_INT))),DFA);
-    AddLexerConnectedComponent((Token*)hashTableSearch(symbolTable,TOKEN_IF),DFA);
-    AddLexerConnectedComponent(hashTableSearch(symbolTable,TOKEN_ELSE),DFA);
-    AddLexerConnectedComponent(hashTableSearch(symbolTable,TOKEN_ELSIF),DFA);
-    AddLexerConnectedComponent(hashTableSearch(symbolTable,TOKEN_UNTIL),DFA);
-    AddLexerConnectedComponent(hashTableSearch(symbolTable,TOKEN_FUNC),DFA);
-    AddLexerConnectedComponent(hashTableSearch(symbolTable,TOKEN_RETURN),DFA);
-    AddLexerConnectedComponent(hashTableSearch(symbolTable,TOKEN_BLANK),DFA);
+    // Longest lexemes first (to preserve prefixes)
+    AddLexerConnectedComponent(hashTableSearch(symbolTable, TOKEN_BOOLEAN), DFA);   // "boolean"
+    AddLexerConnectedComponent(hashTableSearch(symbolTable, TOKEN_RETURN), DFA);    // "return"
+    AddLexerConnectedComponent(hashTableSearch(symbolTable, TOKEN_DOUBLE), DFA);    // "double"
 
-    // Logical operators
-    AddLexerConnectedComponent(hashTableSearch(symbolTable,TOKEN_AND),DFA);
-    AddLexerConnectedComponent(hashTableSearch(symbolTable,TOKEN_OR),DFA);
-    AddLexerConnectedComponent(hashTableSearch(symbolTable,TOKEN_NOT),DFA);
-    AddLexerConnectedComponent(hashTableSearch(symbolTable,TOKEN_EQUAL),DFA);
-    AddLexerConnectedComponent(hashTableSearch(symbolTable,TOKEN_NOTEQUAL),DFA);
-    AddLexerConnectedComponent(hashTableSearch(symbolTable,TOKEN_GTE),DFA);
-    AddLexerConnectedComponent(hashTableSearch(symbolTable,TOKEN_LTE),DFA);
-    AddLexerConnectedComponent(hashTableSearch(symbolTable,TOKEN_GT),DFA);
-    AddLexerConnectedComponent(hashTableSearch(symbolTable,TOKEN_LT),DFA);
+    AddLexerConnectedComponent(hashTableSearch(symbolTable, TOKEN_ELSIF), DFA);     // "elsif"
+    AddLexerConnectedComponent(hashTableSearch(symbolTable, TOKEN_UNTIL), DFA);     // "until"
+    AddLexerConnectedComponent(hashTableSearch(symbolTable, TOKEN_BLANK), DFA);     // "blank"
+    AddLexerConnectedComponent(hashTableSearch(symbolTable, TOKEN_SHORT), DFA);     // "short"
+    AddLexerConnectedComponent(hashTableSearch(symbolTable, TOKEN_FLOAT), DFA);     // "float"
+    AddLexerConnectedComponent(hashTableSearch(symbolTable, TOKEN_FALSE), DFA);     // "false"
 
-    // Types
-    
-    AddLexerConnectedComponent(hashTableSearch(symbolTable,TOKEN_SHORT),DFA);
-    AddLexerConnectedComponent(hashTableSearch(symbolTable,TOKEN_LONG),DFA);
-    AddLexerConnectedComponent(hashTableSearch(symbolTable,TOKEN_DOUBLE),DFA);
-    AddLexerConnectedComponent(hashTableSearch(symbolTable,TOKEN_FLOAT),DFA);
-    AddLexerConnectedComponent(hashTableSearch(symbolTable,TOKEN_CHAR),DFA);
-    AddLexerConnectedComponent(hashTableSearch(symbolTable,TOKEN_BYTE),DFA);
-    AddLexerConnectedComponent(hashTableSearch(symbolTable,TOKEN_BOOLEAN),DFA);
+    AddLexerConnectedComponent(hashTableSearch(symbolTable, TOKEN_ELSE), DFA);      // "else"
+    AddLexerConnectedComponent(hashTableSearch(symbolTable, TOKEN_FUNC), DFA);      // "func"
+    AddLexerConnectedComponent(hashTableSearch(symbolTable, TOKEN_LONG), DFA);      // "long"
+    AddLexerConnectedComponent(hashTableSearch(symbolTable, TOKEN_CHAR), DFA);      // "char"
+    AddLexerConnectedComponent(hashTableSearch(symbolTable, TOKEN_BYTE), DFA);      // "byte"
+    AddLexerConnectedComponent(hashTableSearch(symbolTable, TOKEN_TRUE), DFA);      // "true"
 
-    // Arithmetic operators
-    AddLexerConnectedComponent(hashTableSearch(symbolTable,TOKEN_ADD),DFA);
-    AddLexerConnectedComponent(hashTableSearch(symbolTable,TOKEN_SUB),DFA);
-    AddLexerConnectedComponent(hashTableSearch(symbolTable,TOKEN_MUL),DFA);
-    AddLexerConnectedComponent(hashTableSearch(symbolTable,TOKEN_DIV),DFA);
-    AddLexerConnectedComponent(hashTableSearch(symbolTable,TOKEN_MOD),DFA);
-    AddLexerConnectedComponent(hashTableSearch(symbolTable,TOKEN_POW),DFA);
-    AddLexerConnectedComponent(hashTableSearch(symbolTable,TOKEN_ROOT),DFA);
+    AddLexerConnectedComponent(hashTableSearch(symbolTable, TOKEN_AND), DFA);       // "and"
+    AddLexerConnectedComponent(hashTableSearch(symbolTable, TOKEN_NOT), DFA);       // "not"
 
-    // Assignment
-    AddLexerConnectedComponent(hashTableSearch(symbolTable,TOKEN_ASSIGN),DFA);
+    AddLexerConnectedComponent(hashTableSearch(symbolTable, TOKEN_INT), DFA);       // "int"
+    AddLexerConnectedComponent(hashTableSearch(symbolTable, TOKEN_IF), DFA);        // "if"
+    AddLexerConnectedComponent(hashTableSearch(symbolTable, TOKEN_OR), DFA);        // "or"
 
-    // Delimiters
-    AddLexerConnectedComponent(hashTableSearch(symbolTable,TOKEN_SEMICOLON),DFA);
-    AddLexerConnectedComponent(hashTableSearch(symbolTable,TOKEN_COMMA),DFA);
-    AddLexerConnectedComponent(hashTableSearch(symbolTable,TOKEN_LBRACE),DFA);
-    AddLexerConnectedComponent(hashTableSearch(symbolTable,TOKEN_RBRACE),DFA);
-    AddLexerConnectedComponent(hashTableSearch(symbolTable,TOKEN_LBRACKET),DFA);
-    AddLexerConnectedComponent(hashTableSearch(symbolTable,TOKEN_RBRACKET),DFA);
-    AddLexerConnectedComponent(hashTableSearch(symbolTable,TOKEN_LPAREN),DFA);
-    AddLexerConnectedComponent(hashTableSearch(symbolTable,TOKEN_RPAREN),DFA);
+    AddLexerConnectedComponent(hashTableSearch(symbolTable, TOKEN_EQUAL), DFA);     // "=="
+    AddLexerConnectedComponent(hashTableSearch(symbolTable, TOKEN_NOTEQUAL), DFA);  // "!="
+    AddLexerConnectedComponent(hashTableSearch(symbolTable, TOKEN_GTE), DFA);       // ">="
+    AddLexerConnectedComponent(hashTableSearch(symbolTable, TOKEN_LTE), DFA);       // "<="
+    AddLexerConnectedComponent(hashTableSearch(symbolTable, TOKEN_ASSIGN), DFA);    // "->"
 
-    // Boolean literals
-    AddLexerConnectedComponent(hashTableSearch(symbolTable,TOKEN_TRUE),DFA);
-    AddLexerConnectedComponent(hashTableSearch(symbolTable,TOKEN_FALSE),DFA);
+    AddLexerConnectedComponent(hashTableSearch(symbolTable, TOKEN_GT), DFA);        // ">"
+    AddLexerConnectedComponent(hashTableSearch(symbolTable, TOKEN_LT), DFA);        // "<"
+
+    AddLexerConnectedComponent(hashTableSearch(symbolTable, TOKEN_ADD), DFA);       // "+"
+    AddLexerConnectedComponent(hashTableSearch(symbolTable, TOKEN_SUB), DFA);       // "-"
+    AddLexerConnectedComponent(hashTableSearch(symbolTable, TOKEN_MUL), DFA);       // "*"
+    AddLexerConnectedComponent(hashTableSearch(symbolTable, TOKEN_DIV), DFA);       // "/"
+    AddLexerConnectedComponent(hashTableSearch(symbolTable, TOKEN_MOD), DFA);       // "%"
+    AddLexerConnectedComponent(hashTableSearch(symbolTable, TOKEN_POW), DFA);       // "^"
+    AddLexerConnectedComponent(hashTableSearch(symbolTable, TOKEN_ROOT), DFA);      // "~"
+
+    AddLexerConnectedComponent(hashTableSearch(symbolTable, TOKEN_SEMICOLON), DFA); // ";"
+    AddLexerConnectedComponent(hashTableSearch(symbolTable, TOKEN_COMMA), DFA);     // ","
+    AddLexerConnectedComponent(hashTableSearch(symbolTable, TOKEN_LBRACE), DFA);    // "{"
+    AddLexerConnectedComponent(hashTableSearch(symbolTable, TOKEN_RBRACE), DFA);    // "}"
+    AddLexerConnectedComponent(hashTableSearch(symbolTable, TOKEN_LBRACKET), DFA);  // "["
+    AddLexerConnectedComponent(hashTableSearch(symbolTable, TOKEN_RBRACKET), DFA);  // "]"
+    AddLexerConnectedComponent(hashTableSearch(symbolTable, TOKEN_LPAREN), DFA);    // "("
+    AddLexerConnectedComponent(hashTableSearch(symbolTable, TOKEN_RPAREN), DFA);    // ")"
+
     printf("Connected components added successfully.\n");
     printf("DFA created successfully.\n");
 

@@ -11,17 +11,22 @@ Vertex *nextState(FILE **sourceCode, LexerGraph *DFA) {
     // Skip whitespace characters
     while ((symbol = fgetc(*sourceCode)) != EOF && isspace(symbol));
     if (symbol == EOF) return NULL;
-    ungetc(symbol, *sourceCode);
 
     // Check for end of line or end of file
-    while ((symbol = fgetc(*sourceCode)) != EOF && current->state != Trap) {
+    while (symbol != EOF && current->state != Trap) {
         nextEdge = findNext(current->edge, symbol);
-
+        
+        printf("Current state: %d, symbol: %c\n", current->state, symbol);
         if (!nextEdge){
+            printf("No edge found for symbol: %c\n", symbol);
             ungetc(symbol, *sourceCode);
             break;
         }
-
+        if(nextEdge->dest->state != Intermediate && strchr("{}()[];-+/*~^<= ", symbol) == 0){
+            ungetc(symbol, *sourceCode);
+            current = nextEdge->dest;
+            break;
+        }
         current = nextEdge->dest;
     }
 
@@ -58,7 +63,7 @@ LLL_List *TokenizeCode(FILE *sourceCode, LexerGraph *DFA){
             freeHashTable(symbolTable);
             freeHashTable(ErrorTable);
             freeLexerGraph(DFA);
-            return NULL;
+            exit(1);
         }
     }
     tail = head;

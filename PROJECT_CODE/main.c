@@ -27,8 +27,8 @@ static void initializeSymbolTable(){
     hashTableInsert(symbolTable, TOKEN_AND, createToken(TOKEN_AND, TOKEN_CAT_LOGICAL_OP, "AND"));
     hashTableInsert(symbolTable, TOKEN_OR, createToken(TOKEN_OR, TOKEN_CAT_LOGICAL_OP, "OR"));
     hashTableInsert(symbolTable, TOKEN_NOT, createToken(TOKEN_NOT, TOKEN_CAT_LOGICAL_OP, "NOT"));
-    hashTableInsert(symbolTable, TOKEN_EQUAL, createToken(TOKEN_EQUAL, TOKEN_CAT_LOGICAL_OP, "=="));
-    hashTableInsert(symbolTable, TOKEN_NOTEQUAL, createToken(TOKEN_NOTEQUAL, TOKEN_CAT_LOGICAL_OP, "!="));
+    hashTableInsert(symbolTable, TOKEN_EQUAL, createToken(TOKEN_EQUAL, TOKEN_CAT_LOGICAL_OP, "EQUAL"));
+    hashTableInsert(symbolTable, TOKEN_NOTEQUAL, createToken(TOKEN_NOTEQUAL, TOKEN_CAT_LOGICAL_OP, "NOTEQUAL"));
     hashTableInsert(symbolTable, TOKEN_GT, createToken(TOKEN_GT, TOKEN_CAT_LOGICAL_OP, ">"));
     hashTableInsert(symbolTable, TOKEN_LT, createToken(TOKEN_LT, TOKEN_CAT_LOGICAL_OP, "<"));
     hashTableInsert(symbolTable, TOKEN_GTE, createToken(TOKEN_GTE, TOKEN_CAT_LOGICAL_OP, ">="));
@@ -77,8 +77,15 @@ int main(){
     initializeErrorTable();
 
     printf("%s", ((Token*)(hashTableSearch(symbolTable, TOKEN_INT)))->lexeme);
-    
+
     DFA = CreateDFA(symbolTable);
+    Edge *e = findNext(DFA->startVertex->edge, 'i');
+    if(e != NULL){
+        printf("Edge found: %s\n", e->symbol);
+    }else{ 
+        printf("Edge not found\n");
+    }
+
     tokens = TokenizeCode(sourceCode, DFA);
 
     while(tokens != NULL){
