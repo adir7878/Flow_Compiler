@@ -1,11 +1,6 @@
 #include "ADT_STRUCTS.h"
-
-typedef struct Stack{
-    void **data; // Array of pointers to the data stored in the stack
-    int top; // Index of the top element in the stack
-    int size; // Size of the stack
-}Stack;
-
+#include "../Headers/Stack.h"
+#include "Stack.h"
 
 void Stack_Init(Stack *stack, int size) {
     stack->data = malloc(size * sizeof(void*)); // Allocate memory for the stack

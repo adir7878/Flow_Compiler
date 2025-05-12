@@ -1,28 +1,9 @@
-#include "ADT_STRUCTS.h"
 
-static int globalVertexID = 0; 
+#include "../Headers/LexerGraph.h"
 
-typedef struct Edge{
-    char symbol; // Symbol associated with the edge
-    struct Vertex *dest; // Pointer to the destination vertex
-    struct Edge *left, *right; // Left and right edges for the binary tree structure
-}Edge;
+static int globalVertexID = 0;
 
-typedef struct Vertex{
-    int id; // Vertex ID
-    TOKEN_CODE* tokenCode; // Token associated with the vertex if the vertx is in accepting state
-    State state; // State of the vertex
-    Edge *edge; // Pointer to the edges of the vertex
-}Vertex;
-
-typedef struct Graph{
-    Vertex *vertices; // Array of vertices
-    Vertex *startVertex; // Pointer to the start
-    int numVertices;
-}Graph;
-
-
-Vertex* createVertex(State state, TOKEN_CODE* tokenCode, Graph* graph) {
+Vertex* createVertex(State state, TOKEN_CODE* tokenCode, LexerGraph* graph) {
     Vertex* v = malloc(sizeof(Vertex));
     v->id = globalVertexID++;
     v->state = state;
@@ -47,22 +28,23 @@ Edge* createEdge(char symbol, Vertex* dest) {
     return e;
 }
 
-Graph* createGraph() {
-    Graph* g = malloc(sizeof(Graph));
+LexerGraph* createGraph() {
+    LexerGraph* g = malloc(sizeof(LexerGraph));
     g->vertices = NULL;
     g->startVertex = NULL;
     g->numVertices = 0;
+    g->identifierVertex = NULL;
     return g;
 }
 
-void insertEdge(Edge* root, Edge* newEdge){
+Edge* insertEdge(Edge* root, Edge* newEdge){
     if (!root) {
         return newEdge;
     }
     if (newEdge->symbol < root->symbol) {
-        root->left  = insertEdgeNode(root->left,  newEdge);
+        root->left  = insertEdge(root->left,  newEdge);
     }else if (newEdge->symbol > root->symbol) {
-        root->right = insertEdgeNode(root->right, newEdge);
+        root->right = insertEdge(root->right, newEdge);
     }else {
         // already exists, free the new edge
         free(newEdge);
@@ -95,7 +77,7 @@ void freeEdges(Edge *e) {
     free(e);
 }
 
-freeLexerGraph(Graph *g) {
+void freeLexerGraph(LexerGraph *g) {
     for (int i = 0; i < g->numVertices; i++) {
         freeEdges(g->vertices[i].edge);
     }

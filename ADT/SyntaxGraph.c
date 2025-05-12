@@ -15,8 +15,8 @@ typedef struct Vertex{
     Edge *edge; // Pointer to the edges of the vertex
 }Vertex;
 
-typedef struct Graph{
+typedef struct LexerGraph{
     Vertex *vertices; // Array of vertices
     Vertex *startVertex; // Pointer to the start
     int numVertices;
-}Graph;
+}LexerGraph;

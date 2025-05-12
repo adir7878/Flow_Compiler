@@ -1,5 +1,5 @@
-#include "ADT_STRUCTS.h"
 
+#include "../Headers/Token.h"
 
 Token* createToken(TOKEN_CODE code, TOKEN_CATEGORY category, char *lexeme) {
     Token* token = (Token*)malloc(sizeof(Token));

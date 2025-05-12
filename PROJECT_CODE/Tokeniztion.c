@@ -1,10 +1,42 @@
-#pragma once
-
-#include "../ADT/LexerGraph.c"
-#include "../ADT/LLL_Node.c"
 
 
-LLL_List *TokenizeCode(FILE *sourceCode, Graph *DFA){
+#include "Tokeniztion.h"
+
+
+Vertex *nextState(FILE **sourceCode, LexerGraph *DFA) {
+    char symbol = '\0';
+    Vertex *current = DFA->startVertex;
+    Edge *nextEdge = NULL;
+
+    // Skip whitespace characters
+    while ((symbol = fgetc(*sourceCode)) != EOF && isspace(symbol));
+    if (symbol == EOF) return NULL;
+    ungetc(symbol, *sourceCode);
+
+    // Check for end of line or end of file
+    while ((symbol = fgetc(*sourceCode)) != EOF && current->state != Trap) {
+        nextEdge = findNext(current->edge, symbol);
+
+        if (!nextEdge){
+            ungetc(symbol, *sourceCode);
+            break;
+        }
+
+        current = nextEdge->dest;
+    }
+
+    if(current->state == Trap){
+        printf("Error: %s\n", ((Error*)hashTableSearch(ErrorTable, current->id))->errorMessage);
+        return NULL;
+    }else if(current->state == Intermediate){
+        printf("Error: Unfinished Token\n");
+        return NULL;
+    }else{
+        return current;
+    }
+}
+
+LLL_List *TokenizeCode(FILE *sourceCode, LexerGraph *DFA){
     //TODO: Implement the function to tokenize the source code using the DFA
     LLL_List *head = LLL_createNode(NULL),
              *tail = head,
@@ -37,38 +69,4 @@ LLL_List *TokenizeCode(FILE *sourceCode, Graph *DFA){
     freeLexerGraph(DFA);
     
     return head;
-}
-
-
-Vertex *nextState(FILE **sourceCode, Graph *DFA) {
-    char symbol = '\0';
-    Vertex *current = DFA->startVertex;
-    Edge *nextEdge = NULL;
-
-    // Skip whitespace characters
-    while ((symbol = fgetc(*sourceCode)) != EOF && isspace(symbol));
-    if (symbol == EOF) return NULL;
-    ungetc(symbol, *sourceCode);
-
-    // Check for end of line or end of file
-    while ((symbol = fgetc(*sourceCode)) != EOF && current->state != Trap) {
-        nextEdge = findNext(current->edge, symbol);
-
-        if (!nextEdge){
-            ungetc(symbol, *sourceCode);
-            break;
-        }
-
-        current = nextEdge->dest;
-    }
-
-    if(current->state == Trap){
-        printf("Error: %s\n", ((Error*)hashTableSearch(ErrorTable, current->id))->errorMessage);
-        return NULL;
-    }else if(current->state == Intermediate){
-        printf("Error: Unfinished Token\n");
-        return NULL;
-    }else{
-        return current;
-    }
 }

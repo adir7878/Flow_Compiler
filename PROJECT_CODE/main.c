@@ -1,5 +1,7 @@
 
-#include "LexerGraphBuilder.c"
+#include "../Headers/LexerGraphBuilder.h"
+#include "../Headers/LLL_Node.h"
+#include "../Headers/Tokeniztion.h"
 
 static void initializeSymbolTable(){
     symbolTable = createHashTable(100);
@@ -46,6 +48,7 @@ static void initializeSymbolTable(){
     hashTableInsert(symbolTable, TOKEN_COMMA, createToken(TOKEN_COMMA, TOKEN_CAT_SPECIAL_SYMBOL, ","));
     hashTableInsert(symbolTable, TOKEN_TRUE, createToken(TOKEN_TRUE, TOKEN_CAT_CONSTANT, "true"));
     hashTableInsert(symbolTable, TOKEN_FALSE, createToken(TOKEN_FALSE, TOKEN_CAT_CONSTANT, "false"));
+    hashTableInsert(symbolTable, TOKEN_IDENTIFIER, createToken(TOKEN_IDENTIFIER, TOKEN_CAT_IDENTIFIER, "identifier"));
 }
 
 static void initializeErrorTable(){
@@ -54,13 +57,32 @@ static void initializeErrorTable(){
 
 int main(){
 
+    LexerGraph *DFA;
+    LLL_List *tokens;
+    FILE *sourceCode = fopen("../TestFiles/test_1.txt", "r");
+    if (sourceCode == NULL) {
+        fprintf(stderr, "Error opening file\n");
+        return 1;
+    }
+
     // Initialize the symbol table and error table
     initializeSymbolTable();
     initializeErrorTable();
 
-    Graph *DFA = CreateDFA();
-    printf("DFA created with %d vertices.\n", DFA->numVertices);
-    free(DFA->vertices);
+    DFA = CreateDFA();
+    tokens = TokenizeCode(sourceCode, DFA);
+
+    while(tokens != NULL){
+        Token *token = (Token*)tokens->data;
+        if(token != NULL){
+            printf("Token: %s\n", token->lexeme);
+        }
+        tokens = tokens->next;
+    }
+    
+    freeHashTable(symbolTable);
+    freeHashTable(ErrorTable);
+    freeLexerGraph(DFA);
     free(DFA);
     return 0;
 }

@@ -1,6 +1,12 @@
 {
     "files.associations": {
         "adt_structs.h": "c",
-        "stdlib.h": "c"
+        "stdlib.h": "c",
+        "hashtable.h": "c",
+        "token.h": "c",
+        "lexergraph.h": "c",
+        "lll_node.h": "c",
+        "lexergraphbuilder.h": "c",
+        "tokeniztion.h": "c"
     }
 }
