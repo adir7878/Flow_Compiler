@@ -18,7 +18,7 @@ Vertex *createVertexWithIdenifierEdges(LexerGraph *DFA, char *lexeme){
     for(c = 'A'; c <= 'Z'; c++){
         addEdge(newVertex, c, DFA->identifierVertex);
     }
-    printf("Adding edges to vertex %s\n", lexeme);
+    printf("Adding edges to vertex %c\n", *lexeme);
     return newVertex;
 }
 
@@ -27,13 +27,14 @@ void AddLexerConnectedComponent(Token* token, LexerGraph *DFA){
            *newVertex = NULL;
     Edge *nextPath = NULL;
     char *lexeme = token->lexeme;
-    printf("Adding connected component for token %s\n", token->lexeme);
+    printf("\nAdding connected component for token %s\n", token->lexeme);
 
     while (*(lexeme)){
         nextPath = findNext(current->edge, *lexeme);
         if (nextPath == NULL){
             newVertex = createVertexWithIdenifierEdges(DFA, lexeme);
             addEdge(current, *lexeme, newVertex);
+            nextPath = findNext(current->edge, *lexeme);
             current = newVertex;
         }else if(nextPath->dest->state == Trap || nextPath->dest == DFA->identifierVertex){
             newVertex = createVertexWithIdenifierEdges(DFA, lexeme);
@@ -46,7 +47,7 @@ void AddLexerConnectedComponent(Token* token, LexerGraph *DFA){
     }
     current->state = Accepting;
     current->tokenCode = token->code;
-    printf("Token %s added successfully\n", token->lexeme);
+    printf("\nToken %s added successfully\n", token->lexeme);
 }
 
 void initIdenifierSubgraph(LexerGraph *DFA){
@@ -68,6 +69,15 @@ void initIdenifierSubgraph(LexerGraph *DFA){
         addEdge(next, c, next);
     }
 }
+void initNumbersSubgraph(LexerGraph *DFA){
+    Vertex *start = DFA->startVertex;
+    Vertex *numbersVertex = createVertex(Accepting, TOKEN_NUMBER, DFA);
+
+    for(char c = '0'; c <= '9'; c++){
+        addEdge(start, c, numbersVertex);
+        addEdge(numbersVertex, c, numbersVertex);
+    }
+}
 
 /*
 The CreateDFA function constructs and returns a deterministic finite automaton (DFA) represented as a LexerGraph object.
@@ -77,8 +87,11 @@ with a placeholder for dynamic components like identifiers and numbers.
 */
 LexerGraph *CreateDFA(HashTable *symbolTable) {
     printf("init DFA...\n");
+    
     LexerGraph *DFA = createGraph();
-    DFA->startVertex = createVertex(Intermediate, NO_TOKEN, DFA);
+    DFA->startVertex = createVertex(Accepting, NO_TOKEN, DFA);
+
+    initNumbersSubgraph(DFA);
     initIdenifierSubgraph(DFA);
 
     printf("init DFA done\n");
@@ -138,6 +151,15 @@ LexerGraph *CreateDFA(HashTable *symbolTable) {
 
     printf("Connected components added successfully.\n");
     printf("DFA created successfully.\n");
+
+    Edge *nextPath = NULL;
+    Vertex *current = DFA->startVertex;
+    nextPath = findNext(current->edge, 'i');
+    if(nextPath != NULL){
+        printf("Found edge to vertex %c\n", nextPath->dest->state);
+    }else{
+        printf("No edge found\n");
+    }
 
     return DFA;
 }

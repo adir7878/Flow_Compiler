@@ -37,24 +37,22 @@ LexerGraph* createGraph() {
     return g;
 }
 
-Edge* insertEdge(Edge* root, Edge* newEdge){
-    if (!root) {
-        return newEdge;
-    }
-    if (newEdge->symbol < root->symbol) {
-        root->left  = insertEdge(root->left,  newEdge);
-    }else if (newEdge->symbol > root->symbol) {
-        root->right = insertEdge(root->right, newEdge);
+void insertEdge(Edge** root, Edge* newEdge){
+    if (!*root) {
+        *root = newEdge;
+    }else if (newEdge->symbol < (*root)->symbol) {
+        insertEdge(&(*root)->left,  newEdge);
+    }else if (newEdge->symbol > (*root)->symbol) {
+        insertEdge(&(*root)->right, newEdge);    
     }else {
         // already exists, free the new edge
         free(newEdge);
     }
-    return root;
 }
 
 void addEdge(Vertex* v, char symbol, Vertex* dest) {
     Edge *newEdge = createEdge(symbol, dest);
-    insertEdge(v->edge, newEdge);
+    insertEdge(&(v->edge), newEdge);
 }
 
 

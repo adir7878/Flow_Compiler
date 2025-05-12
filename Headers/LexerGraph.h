@@ -25,7 +25,7 @@ typedef struct LexerGraph {
 Vertex *createVertex(State state, TOKEN_CODE tokenCode, LexerGraph *graph);
 Edge *createEdge(char symbol, Vertex *dest);
 LexerGraph *createGraph(void);
-Edge *insertEdge(Edge *root, Edge *newEdge);
+void insertEdge(Edge **root, Edge *newEdge);
 void addEdge(Vertex *v, char symbol, Vertex *dest);
 Edge *findNext(Edge *e, char symbol);
 void freeEdges(Edge *e);

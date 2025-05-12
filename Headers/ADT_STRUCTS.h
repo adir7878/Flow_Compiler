@@ -8,9 +8,6 @@
 
 typedef enum {FALSE, TRUE} BOOLEAN;
 
-static HashTable *symbolTable = NULL;
-static HashTable *ErrorTable = NULL;
-
 typedef enum{
     Trap,
     Accepting,

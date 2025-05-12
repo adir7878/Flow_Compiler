@@ -56,6 +56,7 @@ void hashTableDelete(HashTable* ht, int id) {
 
 /* Free all nodes and the hash table structure itself */
 void freeHashTable(HashTable* ht) {
+    if(!ht) return;
     for (int i = 0; i < ht->size; ++i) {
         HashNode* node = ht->table[i];
         while (node) {
