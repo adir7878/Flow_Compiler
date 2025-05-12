@@ -1,0 +1,6 @@
+{
+    "files.associations": {
+        "adt_structs.h": "c",
+        "stdlib.h": "c"
+    }
+}

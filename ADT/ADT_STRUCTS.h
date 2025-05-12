@@ -1,11 +1,14 @@
 #pragma once
 
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <HashTable.c>
 
+typedef enum {FALSE, TRUE} BOOLEAN;
 
+static HashTable *symbolTable = NULL;
+static HashTable *ErrorTable = NULL;
 
 typedef enum{
     Trap,
@@ -105,8 +108,3 @@ typedef struct{
     char *errorMessage; // Error message
     int lineNumber; // Line number where the error occurred
 } Error;
-
-typedef struct{
-    Error *errors; // Array of errors
-    int numErrors; // Number of errors
-} ErrorTable;

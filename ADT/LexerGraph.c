@@ -10,7 +10,7 @@ typedef struct Edge{
 
 typedef struct Vertex{
     int id; // Vertex ID
-    Token* token; // Token associated with the vertex if the vertx is in accepting state
+    TOKEN_CODE* tokenCode; // Token associated with the vertex if the vertx is in accepting state
     State state; // State of the vertex
     Edge *edge; // Pointer to the edges of the vertex
 }Vertex;
@@ -22,11 +22,11 @@ typedef struct Graph{
 }Graph;
 
 
-Vertex* createVertex(State state, Token* token, Graph* graph) {
+Vertex* createVertex(State state, TOKEN_CODE* tokenCode, Graph* graph) {
     Vertex* v = malloc(sizeof(Vertex));
     v->id = globalVertexID++;
     v->state = state;
-    v->token = token;
+    v->tokenCode = tokenCode;
     v->edge = NULL;
 
     if(graph != NULL){
@@ -86,4 +86,19 @@ Edge *findNext(Edge *e, char symbol) {
     }else {
         return findNext(e->right, symbol);
     }
+}
+
+void freeEdges(Edge *e) {
+    if (!e) return;
+    freeEdges(e->left);
+    freeEdges(e->right);
+    free(e);
+}
+
+freeLexerGraph(Graph *g) {
+    for (int i = 0; i < g->numVertices; i++) {
+        freeEdges(g->vertices[i].edge);
+    }
+    free(g->vertices);
+    free(g);
 }
