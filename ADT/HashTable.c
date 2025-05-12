@@ -1,4 +1,3 @@
-#pragma once
 
 #include "../Headers/ADT_STRUCTS.h"
 #include "../Headers/HashTable.h"

@@ -16,11 +16,14 @@ Vertex *nextState(FILE **sourceCode, LexerGraph *DFA, HashTable *ErrorTable) {
     while (symbol != EOF && current->state != Trap) {
         nextEdge = findNext(current->edge, symbol);
         
-        printf("Current state: %d, symbol: %c\n", current->state, symbol);
+        // printf("Current state: %d, symbol: %c\n", current->state, symbol);
         
         if (!nextEdge){
             // printf("No edge found for symbol: %c\n", symbol);
             ungetc(symbol, *sourceCode);
+            break;
+        }else if(strchr("[({})];,",symbol) != NULL){
+            current = nextEdge->dest;
             break;
         }
         current = nextEdge->dest;

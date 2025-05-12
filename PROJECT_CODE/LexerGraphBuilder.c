@@ -18,7 +18,7 @@ Vertex *createVertexWithIdenifierEdges(LexerGraph *DFA, char *lexeme){
     for(c = 'A'; c <= 'Z'; c++){
         addEdge(newVertex, c, DFA->identifierVertex);
     }
-    printf("Adding edges to vertex %c\n", *lexeme);
+    // printf("Adding edges to vertex %c\n", *lexeme);
     return newVertex;
 }
 
@@ -148,6 +148,7 @@ LexerGraph *CreateDFA(HashTable *symbolTable) {
     AddLexerConnectedComponent(hashTableSearch(symbolTable, TOKEN_RBRACKET), DFA);  // "]"
     AddLexerConnectedComponent(hashTableSearch(symbolTable, TOKEN_LPAREN), DFA);    // "("
     AddLexerConnectedComponent(hashTableSearch(symbolTable, TOKEN_RPAREN), DFA);    // ")"
+    AddLexerConnectedComponent(hashTableSearch(symbolTable, TOKEN_MAIN), DFA);      // "main"
 
     printf("Connected components added successfully.\n");
     printf("DFA created successfully.\n");

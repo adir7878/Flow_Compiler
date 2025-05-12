@@ -60,8 +60,9 @@ typedef enum TOKEN_CODE{
     TOKEN_TRUE,       // true
     TOKEN_FALSE,      // false
 
-    // Identifier and EOF
-    TOKEN_IDENTIFIER // identifier
+    // Identifier and main
+    TOKEN_IDENTIFIER, // identifier
+    TOKEN_MAIN
 } TOKEN_CODE;
 
 typedef enum TOKEN_CATEGORY{

@@ -56,6 +56,7 @@ void initializeSymbolTable(HashTable **symbolTable){
     hashTableInsert(*symbolTable, TOKEN_FALSE, createToken(TOKEN_FALSE, TOKEN_CAT_CONSTANT, "false"));
     hashTableInsert(*symbolTable, TOKEN_IDENTIFIER, createToken(TOKEN_IDENTIFIER, TOKEN_CAT_IDENTIFIER, "identifier"));
     hashTableInsert(*symbolTable, TOKEN_NUMBER, createToken(TOKEN_NUMBER, TOKEN_CAT_CONSTANT, "number"));
+    hashTableInsert(*symbolTable, TOKEN_MAIN, createToken(TOKEN_MAIN, TOKEN_CAT_CONSTANT, "main"));
 }
 
 void initializeErrorTable(HashTable **ErrorTable){
@@ -98,7 +99,7 @@ int main(){
     while(tokens != NULL){
         Token *token = (Token*)tokens->data;
         if(token != NULL){
-            printf("Token: %s\n", token->lexeme);
+            printf("Token: %s, HashCode: %d\n", token->lexeme, token->code);
         }
         tokens = tokens->next;
     }
