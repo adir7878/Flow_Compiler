@@ -12,8 +12,14 @@ SyntaxVertex* createSyntaxVertex(SyntaxGraph *graph){
     newVer->template = NULL;
 
     if(graph != NULL){
-        graph->vertices = (SyntaxVertex**)realloc(graph->vertices, sizeof(SyntaxVertex*) * ++(graph->numVertices));
-        graph->vertices[graph->numVertices - 1] = newVer;
+        if(graph->vertices == NULL){
+            graph->vertices = (SyntaxVertex**)realloc(graph->vertices, sizeof(SyntaxVertex*) * (graph->numVertices + 1));
+        }else{
+            graph->vertices =(SyntaxVertex**)malloc(sizeof(SyntaxVertex*));
+        }
+        
+        graph->vertices[graph->numVertices] = newVer;
+        graph->numVertices++;
     }
 
     return newVer;
@@ -27,9 +33,9 @@ SyntaxEdge* createSyntaxEdge(TOKEN_CATEGORY category, SyntaxVertex *dest){
 }
 SyntaxGraph* createSyntaxGraph(){
     SyntaxGraph *g = (SyntaxGraph*)malloc(sizeof(SyntaxGraph));
-    g->numVertices = 1;
+    g->numVertices = 0;
     g->vertices = NULL;
-    g->startVertex = createSyntaxVertex(g);
+    g->startVertex = NULL;
     return g;
 }
 
@@ -47,6 +53,7 @@ void insertSyntaxEdge(SyntaxEdge** edges, SyntaxEdge *newEdge){
 
 void addSyntaxEdge(SyntaxVertex *curr, TOKEN_CATEGORY category, SyntaxVertex *dest){
     SyntaxEdge *newEdge = createSyntaxEdge(category, dest);
+    printf("created edge with: %d weight\n", category);
     insertSyntaxEdge(&(curr->edge), newEdge);
 }
 
@@ -69,7 +76,7 @@ void freeSyntaxEdges(SyntaxEdge *e) {
 }
 void freeSyntaxGraph(SyntaxGraph *g){
     for (int i = 0; i < g->numVertices; i++) {
-        freeSyntaxEdges((*g->vertices[i]).edge);
+        freeSyntaxEdges(g->vertices[i]->edge);
     }
     free(g->vertices);
     free(g);

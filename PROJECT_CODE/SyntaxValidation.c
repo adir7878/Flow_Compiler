@@ -1,5 +1,6 @@
 
 #include "../Headers/SyntaxValidation.h"
+#include "../Headers/SyntaxGraph.h"
 
 
 BOOLEAN SyntaxValidation(LLL_List *tokens, SyntaxGraph *PDA) {
@@ -22,10 +23,11 @@ SyntaxVertex *nextSyntaxState(LLL_List **tokens, SyntaxGraph *PDA) {
     SyntaxVertex *currentLocation = PDA->startVertex;
     SyntaxEdge *nextEdge = NULL;
     nextEdge = SyntaxFindNextEdge(currentLocation->edge ,((Token*)*tokens)->type);
+    *tokens = (*tokens)->next;
     while(nextEdge != NULL && *tokens != NULL){
         currentLocation = nextEdge->dest;
-        *tokens = (*tokens)->next;
         nextEdge = SyntaxFindNextEdge(currentLocation->edge ,((Token*)*tokens)->type);
+        *tokens = (*tokens)->next;
     }
     
     return currentLocation;

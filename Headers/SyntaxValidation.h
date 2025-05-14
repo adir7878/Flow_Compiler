@@ -1,8 +1,8 @@
 #pragma once
 
 #include "ADT_STRUCTS.h"
-#include "../ADT/SyntaxGraph.c"
-#include "../ADT/LLL_Node.c"
+#include "SyntaxGraph.h"
+#include "LLL_Node.h"
 
 BOOLEAN SyntaxValidation(LLL_List *tokens, SyntaxGraph *PDA);
 SyntaxVertex *nextSyntaxState(LLL_List **tokens, SyntaxGraph *PDA);

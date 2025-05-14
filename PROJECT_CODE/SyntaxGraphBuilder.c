@@ -43,7 +43,7 @@ SyntaxGraph *createPDA(){
     SyntaxGraph *syntaxGraph = createSyntaxGraph();
     SubGraph* expSubGraph = buildExpressionSubGraph(syntaxGraph);
 
-    SyntaxVertex *start = syntaxGraph->startVertex;
+    syntaxGraph->startVertex = createSyntaxVertex(syntaxGraph);
 
     SyntaxVertex *type, *identifier, *assign, *semicolon;
     type = createSyntaxVertex(syntaxGraph);
@@ -51,7 +51,9 @@ SyntaxGraph *createPDA(){
     assign = createSyntaxVertex(syntaxGraph);
     semicolon = createSyntaxVertex(syntaxGraph);
 
-    addSyntaxEdge(start, TOKEN_CAT_TYPE, type);
+    semicolon->state = Accepting;
+
+    addSyntaxEdge(syntaxGraph->startVertex, TOKEN_CAT_TYPE, type);
     addSyntaxEdge(type, TOKEN_CAT_IDENTIFIER, identifier);
     addSyntaxEdge(identifier, TOKEN_CAT_ASSIGN, assign);
     addSyntaxEdge(assign, TOKEN_CAT_EXPRESSION, expSubGraph->start);

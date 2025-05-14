@@ -1,12 +1,14 @@
 
 #include "../Headers/ADT_STRUCTS.h"
-#include "../Headers/LexerGraphBuilder.h"
-#include "../Headers/LLL_Node.h"
-#include "../Headers/Tokeniztion.h"
-#include "../Headers/HashTable.h"
 #include "../Headers/Token.h"
+#include "../Headers/LLL_Node.h"
+#include "../Headers/HashTable.h"
 #include "../Headers/SyntaxGraph.h"
+#include "../Headers/LexerGraph.h"
 #include "../Headers/SyntaxValidation.h"
+#include "../Headers/LexerGraphBuilder.h"
+#include "../Headers/SyntaxGraphBuilder.h"
+#include "../Headers/Tokeniztion.h"
 
 
 void initializeSymbolTable(HashTable **symbolTable){
@@ -100,7 +102,7 @@ int main(){
         pos = pos->next;
     }
 
-    PDA = createSyntaxGraph();
+    PDA = createPDA();
     BOOLEAN test = SyntaxValidation(tokens, PDA);
 
     printf("\ntest: %d", test);

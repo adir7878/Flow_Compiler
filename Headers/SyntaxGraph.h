@@ -34,6 +34,8 @@ SyntaxEdge* createSyntaxEdge(TOKEN_CATEGORY category, SyntaxVertex *dest);
 void insertSyntaxEdge(SyntaxEdge** edges, SyntaxEdge *newEdge);
 void addSyntaxEdge(SyntaxVertex *curr, TOKEN_CATEGORY category, SyntaxVertex *dest);
 
+SyntaxEdge *SyntaxFindNextEdge(SyntaxEdge *edge, TOKEN_CATEGORY category);
+
 void freeSyntaxEdges(SyntaxEdge *e);
 void freeSyntaxGraph(SyntaxGraph *g);
 
