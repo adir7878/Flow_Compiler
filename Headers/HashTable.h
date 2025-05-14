@@ -10,7 +10,6 @@ typedef struct HashTable {
     int size;
 } HashTable;
 
-// your HashTable API:
 HashTable* createHashTable(int size);
 void hashTableInsert(HashTable *ht, int id, void *data);
 void* hashTableSearch(HashTable *ht, int id);

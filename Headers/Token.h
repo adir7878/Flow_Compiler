@@ -66,14 +66,16 @@ typedef enum TOKEN_CODE{
 } TOKEN_CODE;
 
 typedef enum TOKEN_CATEGORY{
-    TOKEN_CAT_TYPE,             // data types: int, short, long, double, float, char, byte, boolean
-    TOKEN_CAT_KEYWORD,          // language keywords: if, elsif, else, until, func, return, blank
-    TOKEN_CAT_LOGICAL_OP,       // logical operators: AND, OR, NOT, ==, !=, >, <, >=, <=
-    TOKEN_CAT_ARITHMETIC_OP,    // arithmetic operators: +, -, *, /, %, ^, ~
-    TOKEN_CAT_SPECIAL_SYMBOL,   // punctuation & symbols: ; { } [ ] -> ,
-    TOKEN_CAT_CONSTANT,         // literals: numeric (TOKEN_NUMBER), true, false
-    TOKEN_CAT_IDENTIFIER,       // identifiers
-    TOKEN_CAT_EOF               // end of input
+    TOKEN_CAT_TYPE,
+    TOKEN_CAT_KEYWORD,
+    TOKEN_CAT_LOGICAL_OP,
+    TOKEN_CAT_ARITHMETIC_OP,
+    TOKEN_CAT_SPECIAL_SYMBOL,
+    TOKEN_CAT_ASSIGN,
+    TOKEN_CAT_SEMICOLON,
+    TOKEN_CAT_CONSTANT,
+    TOKEN_CAT_EXPRESSION,
+    TOKEN_CAT_IDENTIFIER,       
 } TOKEN_CATEGORY;
 
 typedef struct Token{

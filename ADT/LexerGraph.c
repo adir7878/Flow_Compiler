@@ -3,15 +3,15 @@
 
 static int globalVertexID = 0;
 
-Vertex* createVertex(State state, TOKEN_CODE tokenCode, LexerGraph* graph) {
-    Vertex* v = malloc(sizeof(Vertex));
+LexerVertex* createVertex(State state, TOKEN_CODE tokenCode, LexerGraph* graph) {
+    LexerVertex* v = malloc(sizeof(LexerVertex));
     v->id = globalVertexID++;
     v->state = state;
     v->tokenCode = tokenCode;
     v->edge = NULL;
 
     if(graph != NULL){
-        graph->vertices = realloc(graph->vertices, sizeof(Vertex) * (graph->numVertices + 1));
+        graph->vertices = realloc(graph->vertices, sizeof(LexerVertex) * (graph->numVertices + 1));
         graph->vertices[graph->numVertices] = *v; // Copy the vertex into the graph's vertices array
         graph->numVertices++;
     }
@@ -19,8 +19,8 @@ Vertex* createVertex(State state, TOKEN_CODE tokenCode, LexerGraph* graph) {
     return v;
 }
 
-Edge* createEdge(char symbol, Vertex* dest) {
-    Edge* e = malloc(sizeof(Edge));
+LexerEdge* createEdge(char symbol, LexerVertex* dest) {
+    LexerEdge* e = malloc(sizeof(LexerEdge));
     e->symbol = symbol;
     e->dest = dest;
     e->left = NULL;
@@ -37,7 +37,7 @@ LexerGraph* createGraph() {
     return g;
 }
 
-void insertEdge(Edge** root, Edge* newEdge){
+void insertEdge(LexerEdge** root, LexerEdge* newEdge){
     if (!*root) {
         *root = newEdge;
     }else if (newEdge->symbol < (*root)->symbol) {
@@ -50,13 +50,13 @@ void insertEdge(Edge** root, Edge* newEdge){
     }
 }
 
-void addEdge(Vertex* v, char symbol, Vertex* dest) {
-    Edge *newEdge = createEdge(symbol, dest);
+void addEdge(LexerVertex* v, char symbol, LexerVertex* dest) {
+    LexerEdge *newEdge = createEdge(symbol, dest);
     insertEdge(&(v->edge), newEdge);
 }
 
 
-Edge *findNext(Edge *e, char symbol) {
+LexerEdge *findNext(LexerEdge *e, char symbol) {
     if (e == NULL) {
         return NULL;
     }else if (symbol == e->symbol) {
@@ -68,7 +68,7 @@ Edge *findNext(Edge *e, char symbol) {
     }
 }
 
-void freeEdges(Edge *e) {
+void freeEdges(LexerEdge *e) {
     if (!e) return;
     freeEdges(e->left);
     freeEdges(e->right);

@@ -2,12 +2,10 @@
 #include "../Headers/ADT_STRUCTS.h"
 #include "../Headers/HashTable.h"
 
-/* Compute a bucket index from an integer id */
 static int hashFunction(int id, int size) {
     return (id < 0 ? -id : id) % size;
 }
 
-/* Allocate and initialize a new hash table of given size */
 HashTable* createHashTable(int size) {
     HashTable* ht = malloc(sizeof(HashTable));
     ht->size = size;
@@ -15,7 +13,6 @@ HashTable* createHashTable(int size) {
     return ht;
 }
 
-/* Insert a new data pointer under the given id */
 void hashTableInsert(HashTable* ht, int id, void* data) {
     int idx = hashFunction(id, ht->size);
     HashNode* node = malloc(sizeof(HashNode));
@@ -25,7 +22,6 @@ void hashTableInsert(HashTable* ht, int id, void* data) {
     ht->table[idx] = node;
 }
 
-/* Look up the data pointer stored under the given id */
 void* hashTableSearch(HashTable* ht, int id) {
     int idx = hashFunction(id, ht->size);
     HashNode* node = ht->table[idx];
@@ -36,7 +32,6 @@ void* hashTableSearch(HashTable* ht, int id) {
     return NULL;
 }
 
-/* Remove the entry with the given id from the table */
 void hashTableDelete(HashTable* ht, int id) {
     int idx = hashFunction(id, ht->size);
     HashNode* node = ht->table[idx];
@@ -53,7 +48,6 @@ void hashTableDelete(HashTable* ht, int id) {
     }
 }
 
-/* Free all nodes and the hash table structure itself */
 void freeHashTable(HashTable* ht) {
     if(!ht) return;
     for (int i = 0; i < ht->size; ++i) {

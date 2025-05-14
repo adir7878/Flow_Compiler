@@ -4,7 +4,7 @@
 #include "LexerGraph.h"
 #include "Token.h"
 
-Vertex *createVertexWithIdenifierEdges(LexerGraph *DFA, char *lexeme);
+LexerVertex *createVertexWithIdenifierEdges(LexerGraph *DFA, char *lexeme);
 
 void AddLexerConnectedComponent(Token *token, LexerGraph *DFA);
 

@@ -1,12 +1,1 @@
-
-func blank main(){
-    int x -> 2;
-    int y -> 3;
-    if(x EQUAL y){
-        
-    }elsif(x<y){
-        x->x-1;
-    }else{
-        y->y-1;
-    }
-}
+int x -> 5 * 3 + 25;

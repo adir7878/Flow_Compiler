@@ -4,8 +4,8 @@
 #include "../Headers/HashTable.h"
 // #include "../Headers/ADT_STRUCTS.h"
 
-Vertex *createVertexWithIdenifierEdges(LexerGraph *DFA, char *lexeme){
-    Vertex *newVertex = createVertex(Intermediate, NO_TOKEN, DFA);
+LexerVertex *createVertexWithIdenifierEdges(LexerGraph *DFA, char *lexeme){
+    LexerVertex *newVertex = createVertex(Accepting, TOKEN_IDENTIFIER, DFA);
 
     if((*lexeme < 'a' && *lexeme > 'z') || (*lexeme > 'A' && *lexeme < 'Z')){
         return newVertex;
@@ -23,9 +23,9 @@ Vertex *createVertexWithIdenifierEdges(LexerGraph *DFA, char *lexeme){
 }
 
 void AddLexerConnectedComponent(Token* token, LexerGraph *DFA){
-    Vertex *current = DFA->startVertex,
+    LexerVertex *current = DFA->startVertex,
            *newVertex = NULL;
-    Edge *nextPath = NULL;
+    LexerEdge *nextPath = NULL;
     char *lexeme = token->lexeme;
     printf("\nAdding connected component for token %s\n", token->lexeme);
 
@@ -52,8 +52,8 @@ void AddLexerConnectedComponent(Token* token, LexerGraph *DFA){
 
 void initIdenifierSubgraph(LexerGraph *DFA){
     DFA->identifierVertex = createVertex(Accepting, TOKEN_IDENTIFIER, DFA);
-    Vertex *current = DFA->identifierVertex;
-    Vertex *next = createVertex(Accepting, TOKEN_IDENTIFIER, DFA);
+    LexerVertex *current = DFA->identifierVertex;
+    LexerVertex *next = createVertex(Accepting, TOKEN_IDENTIFIER, DFA);
     char c;
 
     for(c = 'a'; c <= 'z'; c++){
@@ -70,8 +70,8 @@ void initIdenifierSubgraph(LexerGraph *DFA){
     }
 }
 void initNumbersSubgraph(LexerGraph *DFA){
-    Vertex *start = DFA->startVertex;
-    Vertex *numbersVertex = createVertex(Accepting, TOKEN_NUMBER, DFA);
+    LexerVertex *start = DFA->startVertex;
+    LexerVertex *numbersVertex = createVertex(Accepting, TOKEN_NUMBER, DFA);
 
     for(char c = '0'; c <= '9'; c++){
         addEdge(start, c, numbersVertex);
@@ -79,12 +79,7 @@ void initNumbersSubgraph(LexerGraph *DFA){
     }
 }
 
-/*
-The CreateDFA function constructs and returns a deterministic finite automaton (DFA) represented as a LexerGraph object.
-This DFA is initialized with a start vertex and populated with connected components for various token:
-categories, including keywords, logical operators, types, arithmetic operators, assignment symbols, delimiters, and boolean literals.
-with a placeholder for dynamic components like identifiers and numbers.
-*/
+
 LexerGraph *CreateDFA(HashTable *symbolTable) {
     printf("init DFA...\n");
     
@@ -153,8 +148,8 @@ LexerGraph *CreateDFA(HashTable *symbolTable) {
     printf("Connected components added successfully.\n");
     printf("DFA created successfully.\n");
 
-    Edge *nextPath = NULL;
-    Vertex *current = DFA->startVertex;
+    LexerEdge *nextPath = NULL;
+    LexerVertex *current = DFA->startVertex;
     nextPath = findNext(current->edge, 'i');
     if(nextPath != NULL){
         printf("Found edge to vertex %c\n", nextPath->dest->state);

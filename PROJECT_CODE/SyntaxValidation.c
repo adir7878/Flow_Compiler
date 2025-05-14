@@ -1,13 +1,32 @@
-#include "../ADT/SyntaxGraph.c"
-#include "../ADT/LLL_Node.c"
+
+#include "../Headers/SyntaxValidation.h"
 
 
-LLL_List *SyntaxValidation(LLL_List *tokens, LexerGraph *PDA) {
-    // TODO: Implement the function to validate the syntax of the tokens using the PDA
-    return NULL;
+BOOLEAN SyntaxValidation(LLL_List *tokens, SyntaxGraph *PDA) {
+    SyntaxVertex *currentLocation = NULL;
+    BOOLEAN isOK = TRUE;
+
+    while(tokens && isOK){
+        currentLocation = nextSyntaxState(&tokens, PDA);
+        if(currentLocation->state == Accepting){
+            //TODO: do something after test graph works
+        }else{
+            isOK = FALSE;
+        }
+    }
+    return isOK;
 }
 
-Vertex *nextState(Vertex *current, Token token) {
-    //TODO: Implement the function to find the next state in the PDA
-    return NULL;
+SyntaxVertex *nextSyntaxState(LLL_List **tokens, SyntaxGraph *PDA) {
+    
+    SyntaxVertex *currentLocation = PDA->startVertex;
+    SyntaxEdge *nextEdge = NULL;
+    nextEdge = SyntaxFindNextEdge(currentLocation->edge ,((Token*)*tokens)->type);
+    while(nextEdge != NULL && *tokens != NULL){
+        currentLocation = nextEdge->dest;
+        *tokens = (*tokens)->next;
+        nextEdge = SyntaxFindNextEdge(currentLocation->edge ,((Token*)*tokens)->type);
+    }
+    
+    return currentLocation;
 }

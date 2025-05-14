@@ -5,6 +5,8 @@
 #include "../Headers/Tokeniztion.h"
 #include "../Headers/HashTable.h"
 #include "../Headers/Token.h"
+#include "../Headers/SyntaxGraph.h"
+#include "../Headers/SyntaxValidation.h"
 
 
 void initializeSymbolTable(HashTable **symbolTable){
@@ -71,7 +73,9 @@ int main(){
     HashTable *ErrorTable = NULL;
 
     LexerGraph *DFA = NULL;
-    LLL_List *tokens = NULL;
+    SyntaxGraph *PDA = NULL;
+
+    LLL_List *tokens = NULL, *pos = NULL;
     FILE *sourceCode = fopen("C:\\Users\\adir7\\Flow_Compiler\\TestFiles\\test_1.txt", "r");
     if (sourceCode == NULL) {
         fprintf(stderr, "Error opening file\n");
@@ -84,27 +88,25 @@ int main(){
     initializeSymbolTable(&symbolTable);
     initializeErrorTable(&ErrorTable);
 
-    printf("%s", ((Token*)(hashTableSearch(symbolTable, TOKEN_INT)))->lexeme);
-
     DFA = CreateDFA(symbolTable);
-    Edge *e = findNext(DFA->startVertex->edge, 'i');
-    if(e != NULL){
-        printf("Edge found: %c\n", e->symbol);
-    }else{ 
-        printf("Edge not found\n");
-    }
 
-    tokens = TokenizeCode(sourceCode, DFA, symbolTable, ErrorTable);
+    pos = tokens = TokenizeCode(sourceCode, DFA, symbolTable, ErrorTable);
 
-    while(tokens != NULL){
-        Token *token = (Token*)tokens->data;
+    while(pos != NULL){
+        Token *token = (Token*)pos->data;
         if(token != NULL){
-            printf("Token: %s, HashCode: %d\n", token->lexeme, token->code);
+            printf("%d, ", token->code);
         }
-        tokens = tokens->next;
+        pos = pos->next;
     }
+
+    PDA = createSyntaxGraph();
+    BOOLEAN test = SyntaxValidation(tokens, PDA);
+
+    printf("\ntest: %d", test);
     
     freeHashTable(symbolTable);
     freeHashTable(ErrorTable);
+    freeSyntaxGraph(PDA);
     return 0;
 }

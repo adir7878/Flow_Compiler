@@ -1,32 +1,31 @@
 #pragma once
 #include "ADT_STRUCTS.h"
 
-typedef struct Edge {
+typedef struct LexerEdge {
     char symbol;
-    struct Vertex *dest;
-    struct Edge *left, *right;
-} Edge;
+    struct LexerVertex *dest;
+    struct LexerEdge *left, *right;
+} LexerEdge;
 
-typedef struct Vertex {
+typedef struct LexerVertex {
     int id;
     TOKEN_CODE tokenCode;
     State state;
-    struct Edge *edge;
-}Vertex;
+    struct LexerEdge *edge;
+}LexerVertex;
 
 typedef struct LexerGraph {
-    struct Vertex *vertices;
-    struct Vertex *startVertex;
-    struct Vertex *identifierVertex;
+    struct LexerVertex *vertices;
+    struct LexerVertex *startVertex;
+    struct LexerVertex *identifierVertex;
     int numVertices;
 } LexerGraph;
 
-// No definitions here, only declarations:
-Vertex *createVertex(State state, TOKEN_CODE tokenCode, LexerGraph *graph);
-Edge *createEdge(char symbol, Vertex *dest);
+LexerVertex *createVertex(State state, TOKEN_CODE tokenCode, LexerGraph *graph);
+LexerEdge *createEdge(char symbol, LexerVertex *dest);
 LexerGraph *createGraph(void);
-void insertEdge(Edge **root, Edge *newEdge);
-void addEdge(Vertex *v, char symbol, Vertex *dest);
-Edge *findNext(Edge *e, char symbol);
-void freeEdges(Edge *e);
+void insertEdge(LexerEdge **root, LexerEdge *newEdge);
+void addEdge(LexerVertex *v, char symbol, LexerVertex *dest);
+LexerEdge *findNext(LexerEdge *e, char symbol);
+void freeEdges(LexerEdge *e);
 void freeLexerGraph(LexerGraph *g);

@@ -9,6 +9,8 @@
         "lexergraphbuilder.h": "c",
         "tokeniztion.h": "c",
         "random": "c",
-        "system_error": "c"
+        "system_error": "c",
+        "syntaxgraph.h": "c",
+        "syntaxvalidation.h": "c"
     }   
 }
