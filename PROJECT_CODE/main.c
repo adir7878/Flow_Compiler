@@ -47,14 +47,14 @@ void initializeSymbolTable(HashTable **symbolTable){
     hashTableInsert(*symbolTable, TOKEN_MOD, createToken(TOKEN_MOD, TOKEN_CAT_ARITHMETIC_OP, "%"));
     hashTableInsert(*symbolTable, TOKEN_POW, createToken(TOKEN_POW, TOKEN_CAT_ARITHMETIC_OP, "^"));
     hashTableInsert(*symbolTable, TOKEN_ROOT, createToken(TOKEN_ROOT, TOKEN_CAT_ARITHMETIC_OP, "~"));
-    hashTableInsert(*symbolTable, TOKEN_SEMICOLON, createToken(TOKEN_SEMICOLON, TOKEN_CAT_SPECIAL_SYMBOL, ";"));
+    hashTableInsert(*symbolTable, TOKEN_SEMICOLON, createToken(TOKEN_SEMICOLON, TOKEN_CAT_SEMICOLON, ";"));
     hashTableInsert(*symbolTable, TOKEN_LBRACE, createToken(TOKEN_LBRACE, TOKEN_CAT_SPECIAL_SYMBOL, "{"));
     hashTableInsert(*symbolTable, TOKEN_RBRACE, createToken(TOKEN_RBRACE, TOKEN_CAT_SPECIAL_SYMBOL, "}"));
     hashTableInsert(*symbolTable, TOKEN_LBRACKET, createToken(TOKEN_LBRACKET, TOKEN_CAT_SPECIAL_SYMBOL, "["));
     hashTableInsert(*symbolTable, TOKEN_RBRACKET, createToken(TOKEN_RBRACKET, TOKEN_CAT_SPECIAL_SYMBOL, "]"));
     hashTableInsert(*symbolTable, TOKEN_LPAREN, createToken(TOKEN_LPAREN, TOKEN_CAT_SPECIAL_SYMBOL, "("));
     hashTableInsert(*symbolTable, TOKEN_RPAREN, createToken(TOKEN_RPAREN, TOKEN_CAT_SPECIAL_SYMBOL, ")"));
-    hashTableInsert(*symbolTable, TOKEN_ASSIGN, createToken(TOKEN_ASSIGN, TOKEN_CAT_SPECIAL_SYMBOL, "->"));
+    hashTableInsert(*symbolTable, TOKEN_ASSIGN, createToken(TOKEN_ASSIGN, TOKEN_CAT_ASSIGN, "->"));
     hashTableInsert(*symbolTable, TOKEN_COMMA, createToken(TOKEN_COMMA, TOKEN_CAT_SPECIAL_SYMBOL, ","));
     hashTableInsert(*symbolTable, TOKEN_TRUE, createToken(TOKEN_TRUE, TOKEN_CAT_CONSTANT, "true"));
     hashTableInsert(*symbolTable, TOKEN_FALSE, createToken(TOKEN_FALSE, TOKEN_CAT_CONSTANT, "false"));

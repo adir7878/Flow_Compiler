@@ -8,6 +8,7 @@ SubGraph* buildExpressionSubGraph(SyntaxGraph *syntaxGraph){
 
     //init subgraph
     expSubGraph->start = createSyntaxVertex(syntaxGraph);
+    expSubGraph->start->isSubGraphStart = TRUE;
     expSubGraph->accepting = createSyntaxVertex(syntaxGraph);
 
     constV = createSyntaxVertex(syntaxGraph);
@@ -28,7 +29,7 @@ SubGraph* buildExpressionSubGraph(SyntaxGraph *syntaxGraph){
 
     //in case of expression.
     addSyntaxEdge(expSubGraph->accepting, TOKEN_CAT_ARITHMETIC_OP, arithmeticOpeartor);
-    addSyntaxEdge(expSubGraph->start, TOKEN_CAT_LOGICAL_OP, expSubGraph->accepting);
+    addSyntaxEdge(expSubGraph->accepting, TOKEN_CAT_LOGICAL_OP, logicOperator);
     
     addSyntaxEdge(arithmeticOpeartor, TOKEN_CAT_CONSTANT, expSubGraph->accepting);
     addSyntaxEdge(arithmeticOpeartor, TOKEN_CAT_IDENTIFIER, expSubGraph->accepting);
@@ -56,8 +57,11 @@ SyntaxGraph *createPDA(){
     addSyntaxEdge(syntaxGraph->startVertex, TOKEN_CAT_TYPE, type);
     addSyntaxEdge(type, TOKEN_CAT_IDENTIFIER, identifier);
     addSyntaxEdge(identifier, TOKEN_CAT_ASSIGN, assign);
-    addSyntaxEdge(assign, TOKEN_CAT_EXPRESSION, expSubGraph->start);
+    addSyntaxEdge(assign, TOKEN_CAT_CONSTANT, expSubGraph->start);
+    addSyntaxEdge(assign, TOKEN_CAT_IDENTIFIER, expSubGraph->start);
     addSyntaxEdge(expSubGraph->accepting, TOKEN_CAT_SEMICOLON, semicolon);
+
+    printSyntaxEdgesTypes(expSubGraph->accepting->edge);
 
     return syntaxGraph;
 }

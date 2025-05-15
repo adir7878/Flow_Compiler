@@ -2,6 +2,8 @@
 #include "ADT_STRUCTS.h"
 #include "Template.h"
 
+
+
 typedef struct SyntaxEdge{
     TOKEN_CATEGORY type;
     struct SyntaxVertex *dest;
@@ -13,6 +15,7 @@ typedef struct SyntaxVertex{
     State state;
     Template *template;
     SyntaxEdge *edge;
+    BOOLEAN isSubGraphStart;
 }SyntaxVertex;
 
 typedef struct SubGraph{
@@ -35,6 +38,8 @@ void insertSyntaxEdge(SyntaxEdge** edges, SyntaxEdge *newEdge);
 void addSyntaxEdge(SyntaxVertex *curr, TOKEN_CATEGORY category, SyntaxVertex *dest);
 
 SyntaxEdge *SyntaxFindNextEdge(SyntaxEdge *edge, TOKEN_CATEGORY category);
+
+void printSyntaxEdgesTypes(SyntaxEdge *e);
 
 void freeSyntaxEdges(SyntaxEdge *e);
 void freeSyntaxGraph(SyntaxGraph *g);

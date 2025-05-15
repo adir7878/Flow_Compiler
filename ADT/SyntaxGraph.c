@@ -1,5 +1,5 @@
 #include "../Headers/SyntaxGraph.h"
-#include "SyntaxGraph.h"
+
 
 static int globalVertexID = 0; 
 
@@ -10,6 +10,7 @@ SyntaxVertex* createSyntaxVertex(SyntaxGraph *graph){
     newVer->id = globalVertexID++;
     newVer->state = Trap;
     newVer->template = NULL;
+    newVer->isSubGraphStart = FALSE;
 
     if(graph != NULL){
         if(graph->vertices == NULL){
@@ -27,6 +28,7 @@ SyntaxVertex* createSyntaxVertex(SyntaxGraph *graph){
 SyntaxEdge* createSyntaxEdge(TOKEN_CATEGORY category, SyntaxVertex *dest){
     SyntaxEdge *newEdge = (SyntaxEdge*)malloc(sizeof(SyntaxEdge));
     newEdge->dest = dest;
+    newEdge->type = category;
     newEdge->left = NULL;
     newEdge->right = NULL;
     return newEdge;
@@ -43,9 +45,9 @@ void insertSyntaxEdge(SyntaxEdge** edges, SyntaxEdge *newEdge){
     if(!*edges){
         *edges = newEdge;
     }else if((*edges)->type < newEdge->type){
-        insertSyntaxEdge(&(*edges)->left, newEdge);
-    }else if((*edges)->type > newEdge->type){
         insertSyntaxEdge(&(*edges)->right, newEdge);
+    }else if((*edges)->type > newEdge->type){
+        insertSyntaxEdge(&(*edges)->left, newEdge);
     }else{
         free(newEdge);
     }
@@ -53,7 +55,6 @@ void insertSyntaxEdge(SyntaxEdge** edges, SyntaxEdge *newEdge){
 
 void addSyntaxEdge(SyntaxVertex *curr, TOKEN_CATEGORY category, SyntaxVertex *dest){
     SyntaxEdge *newEdge = createSyntaxEdge(category, dest);
-    printf("created edge with: %d weight\n", category);
     insertSyntaxEdge(&(curr->edge), newEdge);
 }
 
@@ -61,11 +62,22 @@ SyntaxEdge* SyntaxFindNextEdge(SyntaxEdge *edge, TOKEN_CATEGORY category){
     if(edge == NULL){
         return NULL;
     }else if(edge->type < category){
-        SyntaxFindNextEdge(edge->right, category);
+        return SyntaxFindNextEdge(edge->right, category);
     }else if(edge->type > category){
-        SyntaxFindNextEdge(edge->left, category);
+        return SyntaxFindNextEdge(edge->left, category);
+    }else{
+        return edge;
     }
-    return edge;
+}
+
+void printSyntaxEdgesTypes(SyntaxEdge *e){
+    if(e == NULL){
+        //do nothing
+    }else{
+        printSyntaxEdgesTypes(e->left);
+        printSyntaxEdgesTypes(e->right);
+        printf("%d, ", e->type);
+    }
 }
 
 void freeSyntaxEdges(SyntaxEdge *e) {
@@ -75,8 +87,10 @@ void freeSyntaxEdges(SyntaxEdge *e) {
     free(e);
 }
 void freeSyntaxGraph(SyntaxGraph *g){
+    SyntaxVertex** vertcies = g->vertices;
     for (int i = 0; i < g->numVertices; i++) {
-        freeSyntaxEdges(g->vertices[i]->edge);
+        printf("%d", (*vertcies)->edge->type);
+        freeSyntaxEdges((*vertcies)->edge);
     }
     free(g->vertices);
     free(g);

@@ -53,8 +53,10 @@ LLL_List *TokenizeCode(FILE *sourceCode, LexerGraph *DFA, HashTable *symbolTable
         if(currentVertex != NULL){
             token = (Token*)hashTableSearch(symbolTable, currentVertex->tokenCode);
             
+            
             if(token != NULL){
                 // printf("token added: %s\n", token->lexeme);
+                printf("token type %d\n", token->type);
                 newNode = LLL_createNode(token);
                 tail->next = newNode;
                 tail = newNode;
