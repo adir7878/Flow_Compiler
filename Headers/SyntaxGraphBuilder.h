@@ -3,5 +3,6 @@
 #include "SyntaxGraph.h"
 
 SyntaxGraph *createPDA();
-SubGraph *buildExpressionSubGraph();
+SubGraph *buildExpression(SyntaxGraph *syntaxGraph);
 
+SubGraph *arrayInitializationValues(SyntaxGraph *syntaxGraph);

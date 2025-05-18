@@ -5,22 +5,23 @@ static int globalVertexID = 0;
 
 
 SyntaxVertex* createSyntaxVertex(SyntaxGraph *graph){
-    SyntaxVertex *newVer = (SyntaxVertex*)malloc(sizeof(SyntaxVertex));
+    SyntaxVertex *newVer = NULL;
+    newVer = (SyntaxVertex*)malloc(sizeof(SyntaxVertex));
     newVer->edge = NULL;
-    newVer->id = globalVertexID++;
-    newVer->state = Trap;
     newVer->template = NULL;
+    newVer->state = Trap;
     newVer->isSubGraphStart = FALSE;
+    newVer->id = globalVertexID++;
+
+    // printf("\nvertex id add: %d\n", newVer->id);
 
     if(graph != NULL){
-        if(graph->vertices == NULL){
-            graph->vertices = (SyntaxVertex**)realloc(graph->vertices, sizeof(SyntaxVertex*) * (graph->numVertices + 1));
-        }else{
-            graph->vertices =(SyntaxVertex**)malloc(sizeof(SyntaxVertex*));
-        }
-        
-        graph->vertices[graph->numVertices] = newVer;
-        graph->numVertices++;
+        SyntaxVertex **tmp = realloc(graph->vertices, sizeof (*graph->vertices) * (graph->numVertices + 1));
+
+        graph->vertices = tmp;
+        graph->vertices[graph->numVertices++] = newVer;
+    }else{
+        free(newVer);
     }
 
     return newVer;
@@ -89,8 +90,9 @@ void freeSyntaxEdges(SyntaxEdge *e) {
 void freeSyntaxGraph(SyntaxGraph *g){
     SyntaxVertex** vertcies = g->vertices;
     for (int i = 0; i < g->numVertices; i++) {
-        printf("%d", (*vertcies)->edge->type);
-        freeSyntaxEdges((*vertcies)->edge);
+        SyntaxVertex* vertex = vertcies[i]; 
+        // printf("%d", vertex->edge->type);
+        freeSyntaxEdges(vertex->edge);
     }
     free(g->vertices);
     free(g);

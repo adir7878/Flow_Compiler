@@ -13,7 +13,7 @@
 
 void initializeSymbolTable(HashTable **symbolTable){
 
-    printf("Initializing symbol table...\n");
+    // printf("Initializing symbol table...\n");
     *symbolTable = createHashTable(100);
 
     hashTableInsert(*symbolTable, TOKEN_INT, createToken(TOKEN_INT, TOKEN_CAT_TYPE, "int"));
@@ -24,13 +24,13 @@ void initializeSymbolTable(HashTable **symbolTable){
     hashTableInsert(*symbolTable, TOKEN_CHAR, createToken(TOKEN_CHAR, TOKEN_CAT_TYPE, "char"));
     hashTableInsert(*symbolTable, TOKEN_BYTE, createToken(TOKEN_BYTE, TOKEN_CAT_TYPE, "byte"));
     hashTableInsert(*symbolTable, TOKEN_BOOLEAN, createToken(TOKEN_BOOLEAN, TOKEN_CAT_TYPE, "boolean"));
-    hashTableInsert(*symbolTable, TOKEN_IF, createToken(TOKEN_IF, TOKEN_CAT_KEYWORD, "if"));
-    hashTableInsert(*symbolTable, TOKEN_ELSIF, createToken(TOKEN_ELSIF, TOKEN_CAT_KEYWORD, "elsif"));
-    hashTableInsert(*symbolTable, TOKEN_ELSE, createToken(TOKEN_ELSE, TOKEN_CAT_KEYWORD, "else"));
-    hashTableInsert(*symbolTable, TOKEN_UNTIL, createToken(TOKEN_UNTIL, TOKEN_CAT_KEYWORD, "until"));
-    hashTableInsert(*symbolTable, TOKEN_FUNC, createToken(TOKEN_FUNC, TOKEN_CAT_KEYWORD, "func"));
-    hashTableInsert(*symbolTable, TOKEN_RETURN, createToken(TOKEN_RETURN, TOKEN_CAT_KEYWORD, "return"));
-    hashTableInsert(*symbolTable, TOKEN_BLANK, createToken(TOKEN_BLANK, TOKEN_CAT_KEYWORD, "blank"));
+    hashTableInsert(*symbolTable, TOKEN_IF, createToken(TOKEN_IF, TOKEN_CAT_IF, "if"));
+    hashTableInsert(*symbolTable, TOKEN_ELSIF, createToken(TOKEN_ELSIF, TOKEN_CAT_ELSIF, "elsif"));
+    hashTableInsert(*symbolTable, TOKEN_ELSE, createToken(TOKEN_ELSE, TOKEN_CAT_ELSE, "else"));
+    hashTableInsert(*symbolTable, TOKEN_UNTIL, createToken(TOKEN_UNTIL, TOKEN_CAT_UNTIL, "until"));
+    hashTableInsert(*symbolTable, TOKEN_FUNC, createToken(TOKEN_FUNC, TOKEN_CAT_FUNC, "func"));
+    hashTableInsert(*symbolTable, TOKEN_RETURN, createToken(TOKEN_RETURN, TOKEN_CAT_RETURN, "return"));
+    hashTableInsert(*symbolTable, TOKEN_BLANK, createToken(TOKEN_BLANK, TOKEN_CAT_TYPE, "blank"));
     hashTableInsert(*symbolTable, TOKEN_AND, createToken(TOKEN_AND, TOKEN_CAT_LOGICAL_OP, "AND"));
     hashTableInsert(*symbolTable, TOKEN_OR, createToken(TOKEN_OR, TOKEN_CAT_LOGICAL_OP, "OR"));
     hashTableInsert(*symbolTable, TOKEN_NOT, createToken(TOKEN_NOT, TOKEN_CAT_LOGICAL_OP, "NOT"));
@@ -48,14 +48,14 @@ void initializeSymbolTable(HashTable **symbolTable){
     hashTableInsert(*symbolTable, TOKEN_POW, createToken(TOKEN_POW, TOKEN_CAT_ARITHMETIC_OP, "^"));
     hashTableInsert(*symbolTable, TOKEN_ROOT, createToken(TOKEN_ROOT, TOKEN_CAT_ARITHMETIC_OP, "~"));
     hashTableInsert(*symbolTable, TOKEN_SEMICOLON, createToken(TOKEN_SEMICOLON, TOKEN_CAT_SEMICOLON, ";"));
-    hashTableInsert(*symbolTable, TOKEN_LBRACE, createToken(TOKEN_LBRACE, TOKEN_CAT_SPECIAL_SYMBOL, "{"));
-    hashTableInsert(*symbolTable, TOKEN_RBRACE, createToken(TOKEN_RBRACE, TOKEN_CAT_SPECIAL_SYMBOL, "}"));
-    hashTableInsert(*symbolTable, TOKEN_LBRACKET, createToken(TOKEN_LBRACKET, TOKEN_CAT_SPECIAL_SYMBOL, "["));
-    hashTableInsert(*symbolTable, TOKEN_RBRACKET, createToken(TOKEN_RBRACKET, TOKEN_CAT_SPECIAL_SYMBOL, "]"));
-    hashTableInsert(*symbolTable, TOKEN_LPAREN, createToken(TOKEN_LPAREN, TOKEN_CAT_SPECIAL_SYMBOL, "("));
-    hashTableInsert(*symbolTable, TOKEN_RPAREN, createToken(TOKEN_RPAREN, TOKEN_CAT_SPECIAL_SYMBOL, ")"));
+    hashTableInsert(*symbolTable, TOKEN_LBRACE, createToken(TOKEN_LBRACE, TOKEN_CAT_LBRACE, "{"));
+    hashTableInsert(*symbolTable, TOKEN_RBRACE, createToken(TOKEN_RBRACE, TOKEN_CAT_RBRACE, "}"));
+    hashTableInsert(*symbolTable, TOKEN_LBRACKET, createToken(TOKEN_LBRACKET, TOKEN_CAT_LBRACKET, "["));
+    hashTableInsert(*symbolTable, TOKEN_RBRACKET, createToken(TOKEN_RBRACKET, TOKEN_CAT_RBRACKET, "]"));
+    hashTableInsert(*symbolTable, TOKEN_LPAREN, createToken(TOKEN_LPAREN, TOKEN_CAT_LPAREN, "("));
+    hashTableInsert(*symbolTable, TOKEN_RPAREN, createToken(TOKEN_RPAREN, TOKEN_CAT_RPAREN, ")"));
     hashTableInsert(*symbolTable, TOKEN_ASSIGN, createToken(TOKEN_ASSIGN, TOKEN_CAT_ASSIGN, "->"));
-    hashTableInsert(*symbolTable, TOKEN_COMMA, createToken(TOKEN_COMMA, TOKEN_CAT_SPECIAL_SYMBOL, ","));
+    hashTableInsert(*symbolTable, TOKEN_COMMA, createToken(TOKEN_COMMA, TOKEN_CAT_COMMA, ","));
     hashTableInsert(*symbolTable, TOKEN_TRUE, createToken(TOKEN_TRUE, TOKEN_CAT_CONSTANT, "true"));
     hashTableInsert(*symbolTable, TOKEN_FALSE, createToken(TOKEN_FALSE, TOKEN_CAT_CONSTANT, "false"));
     hashTableInsert(*symbolTable, TOKEN_IDENTIFIER, createToken(TOKEN_IDENTIFIER, TOKEN_CAT_IDENTIFIER, "identifier"));
@@ -65,9 +65,27 @@ void initializeSymbolTable(HashTable **symbolTable){
 
 void initializeErrorTable(HashTable **ErrorTable){
 
-    printf("Initializing error table...\n");
+    // printf("Initializing error table...\n");
     *ErrorTable = createHashTable(100);
 }
+
+
+void printFileContents(FILE *file) {
+    char ch;
+    puts("");
+
+    if (file == NULL) {
+        perror("Error opening file");
+        return;
+    }
+
+    while ((ch = fgetc(file)) != EOF) {
+        putchar(ch);
+    }
+    rewind(file);
+    puts("");
+}
+
 
 int main(){
 
@@ -86,6 +104,8 @@ int main(){
         printf("File opened successfully\n");
     }
 
+    printFileContents(sourceCode);
+
     // Initialize the symbol table and error table
     initializeSymbolTable(&symbolTable);
     initializeErrorTable(&ErrorTable);
@@ -94,10 +114,12 @@ int main(){
 
     pos = tokens = TokenizeCode(sourceCode, DFA, symbolTable, ErrorTable);
 
+    fclose(sourceCode);
+    printf("Tokens: ");
     while(pos != NULL){
         Token *token = (Token*)pos->data;
         if(token != NULL){
-            printf("%d, ", token->code);
+            printf("%s, ", token->lexeme);
         }
         pos = pos->next;
     }

@@ -1,23 +1,25 @@
 #include "../Headers/ADT_STRUCTS.h"
 #include "../Headers/Stack.h"
+#include "Stack.h"
 
-void Stack_Init(Stack *stack, int size) {
-    stack->data = malloc(size * sizeof(void*)); // Allocate memory for the stack
-    stack->top = -1; // Initialize the top index to -1 (empty stack)
-    stack->size = size; // Set the size of the stack
+void Stack_Init(Stack **stack) {
+    *stack = (Stack*)malloc(sizeof(Stack)); 
+    (*stack)->data = malloc(sizeof(void*)); 
+    (*stack)->top = -1; // Initialize the top index to -1 (empty stack)
+    (*stack)->size = 0; // Set the size of the stack
 }
 void Stack_Push(Stack *stack, void *data) {
-    if (stack->top == stack->size - 1) { // Check if the stack is full
-        printf("Stack overflow\n");
-        return;
-    }
-    stack->data[++stack->top] = data; // Push the data onto the stack
+    stack->size++;
+    stack->data = realloc(stack->data, sizeof(void*) * stack->size);
+    stack->data[++stack->top] = data;
 }
 void *Stack_Pop(Stack *stack) {
     if (stack->top == -1) { // Check if the stack is empty
         printf("Stack underflow\n");
         return NULL;
     }
+    // puts("\npoping\n");
+    stack->size--;
     return stack->data[stack->top--]; // Pop the data from the stack
 }
 void *Stack_Peek(Stack *stack) {
@@ -26,6 +28,9 @@ void *Stack_Peek(Stack *stack) {
         return NULL;
     }
     return stack->data[stack->top]; // Return the top data without popping it
+}
+BOOLEAN isEmptyStack(Stack *stack) {
+    return stack->top == -1; // Check if the stack is empty
 }
 void Stack_Free(Stack *stack) {
     free(stack->data); // Free the memory allocated for the stack

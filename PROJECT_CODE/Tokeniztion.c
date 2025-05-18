@@ -18,7 +18,7 @@ LexerVertex *nextState(FILE **sourceCode, LexerGraph *DFA, HashTable *ErrorTable
     if (!nextEdge){
         endLoop = TRUE;
     }
-//int x -> 123;( )  
+
     while (symbol != EOF && endLoop == FALSE) {
         if (!nextEdge){
             ungetc(symbol, *sourceCode); // go one back when no next edge such as ' '.
@@ -56,7 +56,7 @@ LLL_List *TokenizeCode(FILE *sourceCode, LexerGraph *DFA, HashTable *symbolTable
             
             if(token != NULL){
                 // printf("token added: %s\n", token->lexeme);
-                printf("token type %d\n", token->type);
+                // printf("token type %d\n", token->type);
                 newNode = LLL_createNode(token);
                 tail->next = newNode;
                 tail = newNode;

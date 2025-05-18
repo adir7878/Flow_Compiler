@@ -2,12 +2,12 @@
 #include "../Headers/LexerGraphBuilder.h"
 #include "../Headers/Token.h"
 #include "../Headers/HashTable.h"
-// #include "../Headers/ADT_STRUCTS.h"
+#include <ctype.h>
 
 LexerVertex *createVertexWithIdenifierEdges(LexerGraph *DFA, char *lexeme){
     LexerVertex *newVertex = createVertex(Accepting, TOKEN_IDENTIFIER, DFA);
 
-    if((*lexeme < 'a' && *lexeme > 'z') || (*lexeme > 'A' && *lexeme < 'Z')){
+    if(!isalpha(*lexeme)){
         return newVertex;
     }
 
@@ -27,7 +27,7 @@ void AddLexerConnectedComponent(Token* token, LexerGraph *DFA){
            *newVertex = NULL;
     LexerEdge *nextPath = NULL;
     char *lexeme = token->lexeme;
-    printf("\nAdding connected component for token %s\n", token->lexeme);
+    // printf("\nAdding connected component for token %s\n", token->lexeme);
 
     while (*(lexeme)){
         nextPath = findNext(current->edge, *lexeme);
@@ -47,7 +47,7 @@ void AddLexerConnectedComponent(Token* token, LexerGraph *DFA){
     }
     current->state = Accepting;
     current->tokenCode = token->code;
-    printf("\nToken %s added successfully\n", token->lexeme);
+    // printf("\nToken %s added successfully\n", token->lexeme);
 }
 
 void initIdenifierSubgraph(LexerGraph *DFA){
@@ -81,7 +81,6 @@ void initNumbersSubgraph(LexerGraph *DFA){
 
 
 LexerGraph *CreateDFA(HashTable *symbolTable) {
-    printf("init DFA...\n");
     
     LexerGraph *DFA = createGraph();
     DFA->startVertex = createVertex(Accepting, NO_TOKEN, DFA);
@@ -89,10 +88,7 @@ LexerGraph *CreateDFA(HashTable *symbolTable) {
     initNumbersSubgraph(DFA);
     initIdenifierSubgraph(DFA);
 
-    printf("init DFA done\n");
-    printf("Adding connected components...\n");
 
-    // Longest lexemes first (to preserve prefixes)
     AddLexerConnectedComponent(hashTableSearch(symbolTable, TOKEN_BOOLEAN), DFA);   // "boolean"
     AddLexerConnectedComponent(hashTableSearch(symbolTable, TOKEN_RETURN), DFA);    // "return"
     AddLexerConnectedComponent(hashTableSearch(symbolTable, TOKEN_DOUBLE), DFA);    // "double"
@@ -144,18 +140,6 @@ LexerGraph *CreateDFA(HashTable *symbolTable) {
     AddLexerConnectedComponent(hashTableSearch(symbolTable, TOKEN_LPAREN), DFA);    // "("
     AddLexerConnectedComponent(hashTableSearch(symbolTable, TOKEN_RPAREN), DFA);    // ")"
     AddLexerConnectedComponent(hashTableSearch(symbolTable, TOKEN_MAIN), DFA);      // "main"
-
-    printf("Connected components added successfully.\n");
-    printf("DFA created successfully.\n");
-
-    LexerEdge *nextPath = NULL;
-    LexerVertex *current = DFA->startVertex;
-    nextPath = findNext(current->edge, 'i');
-    if(nextPath != NULL){
-        printf("Found edge to vertex %c\n", nextPath->dest->state);
-    }else{
-        printf("No edge found\n");
-    }
 
     return DFA;
 }
