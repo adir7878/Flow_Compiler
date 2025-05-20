@@ -1,7 +1,28 @@
 #include "../Headers/SyntaxGraph.h"
+#include "SyntaxGraph.h"
 
 
-static int globalVertexID = 0; 
+static int globalVertexID = 0;
+
+
+void action_none(Stack *stack, TOKEN_CATEGORY category) {
+    // do nothing
+}
+void action_push(Stack *stack, TOKEN_CATEGORY category) {
+    Stack_Push(stack, &category);
+}
+void action_pop(Stack *stack, TOKEN_CATEGORY category) {
+    TOKEN_CATEGORY *top = (TOKEN_CATEGORY*)Stack_Peek(stack);
+    if(isEmptyStack(stack)){
+        puts("\ntoo much close parenthesis\n");
+        exit(1);
+    }else if(*(TOKEN_CATEGORY*)Stack_Peek(stack) != (category)){
+        puts("\nclose parenthesis unmatch error\n");
+        exit(1);
+    }else{
+        Stack_Pop(stack);
+    }
+}
 
 
 SyntaxVertex* createSyntaxVertex(SyntaxGraph *graph){
@@ -10,7 +31,7 @@ SyntaxVertex* createSyntaxVertex(SyntaxGraph *graph){
     newVer->edge = NULL;
     newVer->template = NULL;
     newVer->state = Trap;
-    newVer->isSubGraphStart = FALSE;
+    // newVer->isSubGraphStart = FALSE;
     newVer->id = globalVertexID++;
 
     // printf("\nvertex id add: %d\n", newVer->id);
@@ -30,6 +51,7 @@ SyntaxEdge* createSyntaxEdge(TOKEN_CATEGORY category, SyntaxVertex *dest){
     SyntaxEdge *newEdge = (SyntaxEdge*)malloc(sizeof(SyntaxEdge));
     newEdge->dest = dest;
     newEdge->type = category;
+    newEdge->action = NONE;
     newEdge->left = NULL;
     newEdge->right = NULL;
     return newEdge;
@@ -54,8 +76,9 @@ void insertSyntaxEdge(SyntaxEdge** edges, SyntaxEdge *newEdge){
     }
 }
 
-void addSyntaxEdge(SyntaxVertex *curr, TOKEN_CATEGORY category, SyntaxVertex *dest){
+void addSyntaxEdge(SyntaxVertex *curr, TOKEN_CATEGORY category, SyntaxVertex *dest, STACK_ACTION action){
     SyntaxEdge *newEdge = createSyntaxEdge(category, dest);
+    newEdge->action = action;
     insertSyntaxEdge(&(curr->edge), newEdge);
 }
 

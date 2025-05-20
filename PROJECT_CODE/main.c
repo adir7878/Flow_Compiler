@@ -34,12 +34,12 @@ void initializeSymbolTable(HashTable **symbolTable){
     hashTableInsert(*symbolTable, TOKEN_AND, createToken(TOKEN_AND, TOKEN_CAT_LOGICAL_OP, "AND"));
     hashTableInsert(*symbolTable, TOKEN_OR, createToken(TOKEN_OR, TOKEN_CAT_LOGICAL_OP, "OR"));
     hashTableInsert(*symbolTable, TOKEN_NOT, createToken(TOKEN_NOT, TOKEN_CAT_LOGICAL_OP, "NOT"));
-    hashTableInsert(*symbolTable, TOKEN_EQUAL, createToken(TOKEN_EQUAL, TOKEN_CAT_LOGICAL_OP, "EQUAL"));
+    hashTableInsert(*symbolTable, TOKEN_EQUAL, createToken(TOKEN_EQUAL, TOKEN_CAT_RELATIONAL_OP, "EQUAL"));
     hashTableInsert(*symbolTable, TOKEN_NOTEQUAL, createToken(TOKEN_NOTEQUAL, TOKEN_CAT_LOGICAL_OP, "NOTEQUAL"));
-    hashTableInsert(*symbolTable, TOKEN_GT, createToken(TOKEN_GT, TOKEN_CAT_LOGICAL_OP, ">"));
-    hashTableInsert(*symbolTable, TOKEN_LT, createToken(TOKEN_LT, TOKEN_CAT_LOGICAL_OP, "<"));
-    hashTableInsert(*symbolTable, TOKEN_GTE, createToken(TOKEN_GTE, TOKEN_CAT_LOGICAL_OP, ">="));
-    hashTableInsert(*symbolTable, TOKEN_LTE, createToken(TOKEN_LTE, TOKEN_CAT_LOGICAL_OP, "<="));
+    hashTableInsert(*symbolTable, TOKEN_GT, createToken(TOKEN_GT, TOKEN_CAT_RELATIONAL_OP, ">"));
+    hashTableInsert(*symbolTable, TOKEN_LT, createToken(TOKEN_LT, TOKEN_CAT_RELATIONAL_OP, "<"));
+    hashTableInsert(*symbolTable, TOKEN_GTE, createToken(TOKEN_GTE, TOKEN_CAT_RELATIONAL_OP, ">="));
+    hashTableInsert(*symbolTable, TOKEN_LTE, createToken(TOKEN_LTE, TOKEN_CAT_RELATIONAL_OP, "<="));
     hashTableInsert(*symbolTable, TOKEN_ADD, createToken(TOKEN_ADD, TOKEN_CAT_ARITHMETIC_OP, "+"));
     hashTableInsert(*symbolTable, TOKEN_SUB, createToken(TOKEN_SUB, TOKEN_CAT_ARITHMETIC_OP, "-"));
     hashTableInsert(*symbolTable, TOKEN_MUL, createToken(TOKEN_MUL, TOKEN_CAT_ARITHMETIC_OP, "*"));

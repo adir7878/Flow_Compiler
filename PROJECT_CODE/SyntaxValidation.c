@@ -3,20 +3,26 @@
 #include "../Headers/SyntaxGraph.h"
 #include "../Headers/Stack.h"
 
-#define ABS(x) ((x) < 0 ? -(x) : (x))
+
 
 Stack *stack = NULL;
+
+StackActionFunc action[] = {action_none, action_push, action_pop};
 
 BOOLEAN SyntaxValidation(LLL_List *tokens, SyntaxGraph *PDA) {
     SyntaxVertex *currentLocation = NULL;
     BOOLEAN isOK = TRUE;
     
     Stack_Init(&stack);
-    Stack *sWatch = stack;
 
     while(tokens && isOK){
         currentLocation = nextSyntaxState(&tokens, PDA);
-        if(currentLocation->state == Accepting && isEmptyStack(stack)){
+        if(!isEmptyStack(stack)){
+            printf("Stack top: %d\n", *(TOKEN_CATEGORY*)Stack_Peek(stack));
+            printf("Stack size: %d\n", stack->size);
+            isOK = FALSE;
+        }
+        if(currentLocation->state == Accepting){
             //TODO: do something after test graph works
         }else{
             isOK = FALSE;
@@ -27,42 +33,6 @@ BOOLEAN SyntaxValidation(LLL_List *tokens, SyntaxGraph *PDA) {
     return isOK;
 }
 
-BOOLEAN isNestingValid(Token *t){
-    if(isEmptyStack(stack)){
-        puts("Parentheses problem");
-        exit(1); // handle error of pop from empty stack means parentheses problem
-        return FALSE;
-    }
-    if(*(int*)Stack_Peek(stack) == TOKEN_LBRACE && t->code == TOKEN_RBRACE){
-        return TRUE;
-    }else if(*(int*)Stack_Peek(stack) == TOKEN_LPAREN && t->code == TOKEN_RPAREN){
-        return TRUE;
-    }else if(*(int*)Stack_Peek(stack) == TOKEN_LBRACKET && t->code == TOKEN_RBRACKET){
-        return TRUE;
-    }else{
-        puts("Nesting error");
-        return FALSE;
-    }
-}
-
-void nestingHandler(Token* t){
-    if(t->code == TOKEN_LBRACE || t->code == TOKEN_LPAREN || t->code == TOKEN_LBRACKET){
-        // puts("pushing to stack");
-        Stack_Push(stack, &t->code);
-    }
-    if(t->code == TOKEN_RBRACE || t->code == TOKEN_RPAREN || t->code == TOKEN_RBRACKET){
-        isNestingValid(t) == TRUE ?  Stack_Pop(stack): 0;
-    }
-}
-
-void skipSubGraphStartVertex(SyntaxVertex **currentLocation, SyntaxEdge **nextEdge, Token *t){
-    if(*nextEdge != NULL && (*nextEdge)->dest->isSubGraphStart){
-        //skip from the start vertrex to the path
-        *currentLocation = (*nextEdge)->dest;
-        *nextEdge = SyntaxFindNextEdge((*currentLocation)->edge ,t->type);
-    }
-}
-
 SyntaxVertex *nextSyntaxState(LLL_List **tokens, SyntaxGraph *PDA) {
     
     SyntaxVertex *currentLocation = PDA->startVertex;
@@ -70,23 +40,31 @@ SyntaxVertex *nextSyntaxState(LLL_List **tokens, SyntaxGraph *PDA) {
     LLL_List *prev = *tokens;
 
     Token *t = (Token*)(*tokens)->data;
-    nestingHandler(t);
-
     nextEdge = SyntaxFindNextEdge(currentLocation->edge ,t->type);
-    skipSubGraphStartVertex(&currentLocation, &nextEdge, t);
+
+    if(nextEdge != NULL){
+        printf("\nEDGE FOUND FOR %s", t->lexeme);
+        action[nextEdge->action](stack, t->type);
+    }else{
+        printf("\nNO EDGE FOUND FOR %s", t->lexeme);
+    }
 
     *tokens = (*tokens)->next;
-    // printf("\ncurrent token = %s", t->lexeme);
     
     while(nextEdge != NULL && *tokens != NULL){
         t = (Token*)(*tokens)->data;
-        nestingHandler(t);
-        
-        // printf("\ncurrent token = %s", t->lexeme);
 
         currentLocation = nextEdge->dest;
         nextEdge = SyntaxFindNextEdge(currentLocation->edge ,t->type);
-        skipSubGraphStartVertex(&currentLocation, &nextEdge, t);
+
+        if(nextEdge != NULL){
+            printf("\nEDGE FOUND FOR %s", t->lexeme);
+            action[nextEdge->action](stack, t->type);
+        }else{
+            printf("\nNO EDGE FOUND FOR %s", t->lexeme);
+        }
+
+        // printf("Current token: %s\n", t->lexeme);
         
         prev = *tokens;
         *tokens = (*tokens)->next;

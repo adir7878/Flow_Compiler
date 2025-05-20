@@ -88,7 +88,6 @@ LexerGraph *CreateDFA(HashTable *symbolTable) {
     initNumbersSubgraph(DFA);
     initIdenifierSubgraph(DFA);
 
-
     AddLexerConnectedComponent(hashTableSearch(symbolTable, TOKEN_BOOLEAN), DFA);   // "boolean"
     AddLexerConnectedComponent(hashTableSearch(symbolTable, TOKEN_RETURN), DFA);    // "return"
     AddLexerConnectedComponent(hashTableSearch(symbolTable, TOKEN_DOUBLE), DFA);    // "double"

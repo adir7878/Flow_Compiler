@@ -1,10 +1,6 @@
 
-func blank hey(int a, int b){
-
-    if(x > 3){
-        
-    }
-
+func boolean is75(){
+    boolean b;
+    b -> (25 * 3) EQUAL 5();
 }
-
 

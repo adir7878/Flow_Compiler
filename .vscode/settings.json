@@ -12,6 +12,10 @@
         "system_error": "c",
         "syntaxgraph.h": "c",
         "syntaxvalidation.h": "c",
-        "stack.h": "c"
+        "stack.h": "c",
+        "syntaxgraphbuilder.h": "c",
+        "template.h": "c",
+        "stdio.h": "c",
+        "string.h": "c"
     }   
 }
