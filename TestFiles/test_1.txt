@@ -1,6 +1,89 @@
+func boolean analyzeData(int a, float b){
+    int sum -> ((10 + 5) * 3) ^ 2;
+    int diff -> 100 ~ 4;
+    int mod -> sum % diff;
 
-func boolean is75(){
-    boolean b;
-    b -> (25 * 3) EQUAL 5();
+    until(mod < 1000){
+        a -> a * 2;
+        b -> b ^ 2;
+        mod[((10 + 5) * 3) ^ 2*2*2*2*2*2*2*2] -> a % 5;
+    }
+
+    if(a < 20){
+        if(b > 3){
+            int flag;
+        }else{
+            int fallback;
+        }
+    }elsif(b < 10){
+        if(a NOTEQUAL 5){
+            return 0;
+        }
+    }else{
+        until(sum < diff){
+            sum -> sum + 1;
+            diff -> diff - 1;
+        }
+    }
+
+    return 1;
+}
+
+func boolean analyzeData(int a, float b){
+    int sum -> ((10 + 5) * 3) ^ 2;
+    int diff -> 100 ~ 4;
+    int mod -> sum % diff;
+
+    until(mod < 1000){
+        a -> a * 2;
+        b -> b ^ 2;
+        mod[((10 + 5) * 3) ^ 2*2*2*2*2*2*2*2] -> a % 5;
+    }
+
+    if(a < 20){
+        if(b > 3){
+            int flag;
+        }else{
+            int fallback;
+        }
+    }elsif(b < 10){
+        if(a NOTEQUAL 5){
+            return 0;
+        }
+    }else{
+        until(sum < diff){
+            sum -> sum + 1;
+            diff -> diff - 1;
+        }
+    }
+
+    int sum -> ((10 + 5) * 3) ^ 2;
+    int diff -> 100 ~ 4;
+    int mod -> sum % diff;
+
+    until(mod < 1000){
+        a -> a * 2;
+        b -> b ^ 2;
+        mod[((10 + 5) * 3) ^ 2*2*2*2*2*2*2*2] -> a % 5;
+    }
+
+    if(a < 20){
+        if(b > 3){
+            int flag;
+        }else{
+            int fallback;
+        }
+    }elsif(b < 10){
+        if(a NOTEQUAL 5){
+            return 0;
+        }
+    }else{
+        until(sum < diff){
+            sum -> sum + 1;
+            diff -> diff - 1;
+        }
+    }
+
+    return 1;
 }
 

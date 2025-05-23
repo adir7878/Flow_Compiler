@@ -3,9 +3,14 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "../Headers/Token.h"
+
+typedef struct STRING{
+    char *str;
+    int size;
+}STRING;
 
 #include "../Headers/HashTable.h"
-#include "../Headers/Token.h"
 
 typedef enum {FALSE, TRUE} BOOLEAN;
 typedef enum{Trap, Accepting} State;
@@ -20,3 +25,4 @@ typedef struct{
     char *errorMessage; // Error message
     int lineNumber; // Line number where the error occurred
 } Error;
+

@@ -17,6 +17,7 @@
                 "ADT\\Token.c",
                 "ADT\\Stack.c",
                 "ADT\\SyntaxGraph.c",
+                "ADT\\AST.c",
                 "-I",
                 "Headers",
                 "-Wall",

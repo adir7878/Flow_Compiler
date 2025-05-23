@@ -2,6 +2,7 @@
 typedef struct LLL_List{
     void *data;
     struct LLL_List *next;
+    struct LLL_List *prev;
 }LLL_List;
 
 void LLL_Add_Next(LLL_List *node, void *data);

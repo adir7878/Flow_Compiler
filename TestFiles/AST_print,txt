@@ -1,0 +1,353 @@
+[19] Program
+├── [12] func
+│   ├── [1] boolean
+│   ├── [2] VAR: analyzeData
+│   ├── [16] FUNCTION PARAMS
+│   │   ├── [1] int
+│   │   ├── [2] VAR: a
+│   │   ├── [1] float
+│   │   └── [2] VAR: b
+│   └── [19] BODY
+│       ├── [15] DECLARATION
+│       │   ├── [1] int
+│       │   ├── [2] VAR: sum
+│       │   └── [4] OPERATOR: +
+│       │       ├── [4] OPERATOR: *
+│       │       │   ├── [4] OPERATOR: ^
+│       │       │   │   ├── [3] LITERAL: 2
+│       │       │   │   └── [3] LITERAL: 3
+│       │       │   └── [3] LITERAL: 5
+│       │       └── [3] LITERAL: 10
+│       ├── [15] DECLARATION
+│       │   ├── [1] int
+│       │   ├── [2] VAR: diff
+│       │   └── [4] OPERATOR: ~
+│       │       ├── [3] LITERAL: 4
+│       │       └── [3] LITERAL: 100
+│       ├── [15] DECLARATION
+│       │   ├── [1] int
+│       │   ├── [2] VAR: mod
+│       │   └── [4] OPERATOR: %
+│       │       ├── [2] VAR: diff
+│       │       └── [2] VAR: sum
+│       ├── [10] LOOP: UNTIL
+│       │   ├── [4] OPERATOR: <
+│       │   │   ├── [3] LITERAL: 1000
+│       │   │   └── [2] VAR: mod
+│       │   └── [19] BODY
+│       │       ├── [17] ASSIGNMENT
+│       │       │   ├── [2] VAR: a
+│       │       │   └── [4] OPERATOR: *
+│       │       │       ├── [3] LITERAL: 2
+│       │       │       └── [2] VAR: a
+│       │       ├── [17] ASSIGNMENT
+│       │       │   ├── [2] VAR: b
+│       │       │   └── [4] OPERATOR: ^
+│       │       │       ├── [3] LITERAL: 2
+│       │       │       └── [2] VAR: b
+│       │       └── [18] ARR ASSIGNMENT
+│       │           ├── [2] VAR: mod
+│       │           ├── [4] OPERATOR: +
+│       │           │   ├── [4] OPERATOR: *
+│       │           │   │   ├── [4] OPERATOR: *
+│       │           │   │   │   ├── [4] OPERATOR: *
+│       │           │   │   │   │   ├── [4] OPERATOR: *
+│       │           │   │   │   │   │   ├── [4] OPERATOR: *
+│       │           │   │   │   │   │   │   ├── [4] OPERATOR: *
+│       │           │   │   │   │   │   │   │   ├── [4] OPERATOR: *
+│       │           │   │   │   │   │   │   │   │   ├── [4] OPERATOR: *
+│       │           │   │   │   │   │   │   │   │   │   ├── [3] LITERAL: 2
+│       │           │   │   │   │   │   │   │   │   │   └── [3] LITERAL: 2
+│       │           │   │   │   │   │   │   │   │   └── [3] LITERAL: 2
+│       │           │   │   │   │   │   │   │   └── [3] LITERAL: 2
+│       │           │   │   │   │   │   │   └── [3] LITERAL: 2
+│       │           │   │   │   │   │   └── [3] LITERAL: 2
+│       │           │   │   │   │   └── [3] LITERAL: 2
+│       │           │   │   │   └── [4] OPERATOR: ^
+│       │           │   │   │       ├── [3] LITERAL: 2
+│       │           │   │   │       └── [3] LITERAL: 3
+│       │           │   │   └── [3] LITERAL: 5
+│       │           │   └── [3] LITERAL: 10
+│       │           └── [4] OPERATOR: %
+│       │               ├── [3] LITERAL: 5
+│       │               └── [2] VAR: a
+│       └── [7] IF: IF
+│           ├── [4] OPERATOR: <
+│           │   ├── [3] LITERAL: 20
+│           │   └── [2] VAR: a
+│           ├── [19] BODY
+│           │   └── [7] IF: IF
+│           │       ├── [4] OPERATOR: >
+│           │       │   ├── [3] LITERAL: 3
+│           │       │   └── [2] VAR: b
+│           │       ├── [19] BODY
+│           │       │   └── [15] DECLARATION
+│           │       │       ├── [1] int
+│           │       │       └── [2] VAR: flag
+│           │       └── [8] ELSE
+│           │           └── [19] BODY
+│           │               └── [15] DECLARATION
+│           │                   ├── [1] int
+│           │                   └── [2] VAR: fallback
+│           ├── [9] ELSIF
+│           │   ├── [4] OPERATOR: <
+│           │   │   ├── [3] LITERAL: 10
+│           │   │   └── [2] VAR: b
+│           │   └── [19] BODY
+│           │       └── [7] IF: IF
+│           │           ├── [4] OPERATOR: NOTEQUAL
+│           │           │   ├── [3] LITERAL: 5
+│           │           │   └── [2] VAR: a
+│           │           └── [19] BODY
+│           │               └── [6] RETURN: RETURN
+│           │                   └── [3] LITERAL: 0
+│           └── [8] ELSE
+│               └── [19] BODY
+│                   ├── [10] LOOP: UNTIL
+│                   │   ├── [4] OPERATOR: <
+│                   │   │   ├── [2] VAR: diff
+│                   │   │   └── [2] VAR: sum
+│                   │   └── [19] BODY
+│                   │       ├── [17] ASSIGNMENT
+│                   │       │   ├── [2] VAR: sum
+│                   │       │   └── [4] OPERATOR: +
+│                   │       │       ├── [3] LITERAL: 1
+│                   │       │       └── [2] VAR: sum
+│                   │       └── [17] ASSIGNMENT
+│                   │           ├── [2] VAR: diff
+│                   │           └── [4] OPERATOR: -
+│                   │               ├── [3] LITERAL: 1
+│                   │               └── [2] VAR: diff
+│                   └── [6] RETURN: RETURN
+│                       └── [3] LITERAL: 1
+└── [12] func
+    ├── [1] boolean
+    ├── [2] VAR: analyzeData
+    ├── [16] FUNCTION PARAMS
+    │   ├── [1] int
+    │   ├── [2] VAR: a
+    │   ├── [1] float
+    │   └── [2] VAR: b
+    └── [19] BODY
+        ├── [15] DECLARATION
+        │   ├── [1] int
+        │   ├── [2] VAR: sum
+        │   └── [4] OPERATOR: +
+        │       ├── [4] OPERATOR: *
+        │       │   ├── [4] OPERATOR: ^
+        │       │   │   ├── [3] LITERAL: 2
+        │       │   │   └── [3] LITERAL: 3
+        │       │   └── [3] LITERAL: 5
+        │       └── [3] LITERAL: 10
+        ├── [15] DECLARATION
+        │   ├── [1] int
+        │   ├── [2] VAR: diff
+        │   └── [4] OPERATOR: ~
+        │       ├── [3] LITERAL: 4
+        │       └── [3] LITERAL: 100
+        ├── [15] DECLARATION
+        │   ├── [1] int
+        │   ├── [2] VAR: mod
+        │   └── [4] OPERATOR: %
+        │       ├── [2] VAR: diff
+        │       └── [2] VAR: sum
+        ├── [10] LOOP: UNTIL
+        │   ├── [4] OPERATOR: <
+        │   │   ├── [3] LITERAL: 1000
+        │   │   └── [2] VAR: mod
+        │   └── [19] BODY
+        │       ├── [17] ASSIGNMENT
+        │       │   ├── [2] VAR: a
+        │       │   └── [4] OPERATOR: *
+        │       │       ├── [3] LITERAL: 2
+        │       │       └── [2] VAR: a
+        │       ├── [17] ASSIGNMENT
+        │       │   ├── [2] VAR: b
+        │       │   └── [4] OPERATOR: ^
+        │       │       ├── [3] LITERAL: 2
+        │       │       └── [2] VAR: b
+        │       └── [18] ARR ASSIGNMENT
+        │           ├── [2] VAR: mod
+        │           ├── [4] OPERATOR: +
+        │           │   ├── [4] OPERATOR: *
+        │           │   │   ├── [4] OPERATOR: *
+        │           │   │   │   ├── [4] OPERATOR: *
+        │           │   │   │   │   ├── [4] OPERATOR: *
+        │           │   │   │   │   │   ├── [4] OPERATOR: *
+        │           │   │   │   │   │   │   ├── [4] OPERATOR: *
+        │           │   │   │   │   │   │   │   ├── [4] OPERATOR: *
+        │           │   │   │   │   │   │   │   │   ├── [4] OPERATOR: *
+        │           │   │   │   │   │   │   │   │   │   ├── [3] LITERAL: 2
+        │           │   │   │   │   │   │   │   │   │   └── [3] LITERAL: 2
+        │           │   │   │   │   │   │   │   │   └── [3] LITERAL: 2
+        │           │   │   │   │   │   │   │   └── [3] LITERAL: 2
+        │           │   │   │   │   │   │   └── [3] LITERAL: 2
+        │           │   │   │   │   │   └── [3] LITERAL: 2
+        │           │   │   │   │   └── [3] LITERAL: 2
+        │           │   │   │   └── [4] OPERATOR: ^
+        │           │   │   │       ├── [3] LITERAL: 2
+        │           │   │   │       └── [3] LITERAL: 3
+        │           │   │   └── [3] LITERAL: 5
+        │           │   └── [3] LITERAL: 10
+        │           └── [4] OPERATOR: %
+        │               ├── [3] LITERAL: 5
+        │               └── [2] VAR: a
+        └── [7] IF: IF
+            ├── [4] OPERATOR: <
+            │   ├── [3] LITERAL: 20
+            │   └── [2] VAR: a
+            ├── [19] BODY
+            │   └── [7] IF: IF
+            │       ├── [4] OPERATOR: >
+            │       │   ├── [3] LITERAL: 3
+            │       │   └── [2] VAR: b
+            │       ├── [19] BODY
+            │       │   └── [15] DECLARATION
+            │       │       ├── [1] int
+            │       │       └── [2] VAR: flag
+            │       └── [8] ELSE
+            │           └── [19] BODY
+            │               └── [15] DECLARATION
+            │                   ├── [1] int
+            │                   └── [2] VAR: fallback
+            ├── [9] ELSIF
+            │   ├── [4] OPERATOR: <
+            │   │   ├── [3] LITERAL: 10
+            │   │   └── [2] VAR: b
+            │   └── [19] BODY
+            │       └── [7] IF: IF
+            │           ├── [4] OPERATOR: NOTEQUAL
+            │           │   ├── [3] LITERAL: 5
+            │           │   └── [2] VAR: a
+            │           └── [19] BODY
+            │               └── [6] RETURN: RETURN
+            │                   └── [3] LITERAL: 0
+            └── [8] ELSE
+                └── [19] BODY
+                    ├── [10] LOOP: UNTIL
+                    │   ├── [4] OPERATOR: <
+                    │   │   ├── [2] VAR: diff
+                    │   │   └── [2] VAR: sum
+                    │   └── [19] BODY
+                    │       ├── [17] ASSIGNMENT
+                    │       │   ├── [2] VAR: sum
+                    │       │   └── [4] OPERATOR: +
+                    │       │       ├── [3] LITERAL: 1
+                    │       │       └── [2] VAR: sum
+                    │       └── [17] ASSIGNMENT
+                    │           ├── [2] VAR: diff
+                    │           └── [4] OPERATOR: -
+                    │               ├── [3] LITERAL: 1
+                    │               └── [2] VAR: diff
+                    ├── [15] DECLARATION
+                    │   ├── [1] int
+                    │   ├── [2] VAR: sum
+                    │   └── [4] OPERATOR: +
+                    │       ├── [4] OPERATOR: *
+                    │       │   ├── [4] OPERATOR: ^
+                    │       │   │   ├── [3] LITERAL: 2
+                    │       │   │   └── [3] LITERAL: 3
+                    │       │   └── [3] LITERAL: 5
+                    │       └── [3] LITERAL: 10
+                    ├── [15] DECLARATION
+                    │   ├── [1] int
+                    │   ├── [2] VAR: diff
+                    │   └── [4] OPERATOR: ~
+                    │       ├── [3] LITERAL: 4
+                    │       └── [3] LITERAL: 100
+                    ├── [15] DECLARATION
+                    │   ├── [1] int
+                    │   ├── [2] VAR: mod
+                    │   └── [4] OPERATOR: %
+                    │       ├── [2] VAR: diff
+                    │       └── [2] VAR: sum
+                    ├── [10] LOOP: UNTIL
+                    │   ├── [4] OPERATOR: <
+                    │   │   ├── [3] LITERAL: 1000
+                    │   │   └── [2] VAR: mod
+                    │   └── [19] BODY
+                    │       ├── [17] ASSIGNMENT
+                    │       │   ├── [2] VAR: a
+                    │       │   └── [4] OPERATOR: *
+                    │       │       ├── [3] LITERAL: 2
+                    │       │       └── [2] VAR: a
+                    │       ├── [17] ASSIGNMENT
+                    │       │   ├── [2] VAR: b
+                    │       │   └── [4] OPERATOR: ^
+                    │       │       ├── [3] LITERAL: 2
+                    │       │       └── [2] VAR: b
+                    │       └── [18] ARR ASSIGNMENT
+                    │           ├── [2] VAR: mod
+                    │           ├── [4] OPERATOR: +
+                    │           │   ├── [4] OPERATOR: *
+                    │           │   │   ├── [4] OPERATOR: *
+                    │           │   │   │   ├── [4] OPERATOR: *
+                    │           │   │   │   │   ├── [4] OPERATOR: *
+                    │           │   │   │   │   │   ├── [4] OPERATOR: *
+                    │           │   │   │   │   │   │   ├── [4] OPERATOR: *
+                    │           │   │   │   │   │   │   │   ├── [4] OPERATOR: *
+                    │           │   │   │   │   │   │   │   │   ├── [4] OPERATOR: *
+                    │           │   │   │   │   │   │   │   │   │   ├── [3] LITERAL: 2
+                    │           │   │   │   │   │   │   │   │   │   └── [3] LITERAL: 2
+                    │           │   │   │   │   │   │   │   │   └── [3] LITERAL: 2
+                    │           │   │   │   │   │   │   │   └── [3] LITERAL: 2
+                    │           │   │   │   │   │   │   └── [3] LITERAL: 2
+                    │           │   │   │   │   │   └── [3] LITERAL: 2
+                    │           │   │   │   │   └── [3] LITERAL: 2
+                    │           │   │   │   └── [4] OPERATOR: ^
+                    │           │   │   │       ├── [3] LITERAL: 2
+                    │           │   │   │       └── [3] LITERAL: 3
+                    │           │   │   └── [3] LITERAL: 5
+                    │           │   └── [3] LITERAL: 10
+                    │           └── [4] OPERATOR: %
+                    │               ├── [3] LITERAL: 5
+                    │               └── [2] VAR: a
+                    └── [7] IF: IF
+                        ├── [4] OPERATOR: <
+                        │   ├── [3] LITERAL: 20
+                        │   └── [2] VAR: a
+                        ├── [19] BODY
+                        │   └── [7] IF: IF
+                        │       ├── [4] OPERATOR: >
+                        │       │   ├── [3] LITERAL: 3
+                        │       │   └── [2] VAR: b
+                        │       ├── [19] BODY
+                        │       │   └── [15] DECLARATION
+                        │       │       ├── [1] int
+                        │       │       └── [2] VAR: flag
+                        │       └── [8] ELSE
+                        │           └── [19] BODY
+                        │               └── [15] DECLARATION
+                        │                   ├── [1] int
+                        │                   └── [2] VAR: fallback
+                        ├── [9] ELSIF
+                        │   ├── [4] OPERATOR: <
+                        │   │   ├── [3] LITERAL: 10
+                        │   │   └── [2] VAR: b
+                        │   └── [19] BODY
+                        │       └── [7] IF: IF
+                        │           ├── [4] OPERATOR: NOTEQUAL
+                        │           │   ├── [3] LITERAL: 5
+                        │           │   └── [2] VAR: a
+                        │           └── [19] BODY
+                        │               └── [6] RETURN: RETURN
+                        │                   └── [3] LITERAL: 0
+                        └── [8] ELSE
+                            └── [19] BODY
+                                ├── [10] LOOP: UNTIL
+                                │   ├── [4] OPERATOR: <
+                                │   │   ├── [2] VAR: diff
+                                │   │   └── [2] VAR: sum
+                                │   └── [19] BODY
+                                │       ├── [17] ASSIGNMENT
+                                │       │   ├── [2] VAR: sum
+                                │       │   └── [4] OPERATOR: +
+                                │       │       ├── [3] LITERAL: 1
+                                │       │       └── [2] VAR: sum
+                                │       └── [17] ASSIGNMENT
+                                │           ├── [2] VAR: diff
+                                │           └── [4] OPERATOR: -
+                                │               ├── [3] LITERAL: 1
+                                │               └── [2] VAR: diff
+                                └── [6] RETURN: RETURN
+                                    └── [3] LITERAL: 1

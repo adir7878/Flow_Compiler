@@ -16,6 +16,8 @@
         "syntaxgraphbuilder.h": "c",
         "template.h": "c",
         "stdio.h": "c",
-        "string.h": "c"
+        "string.h": "c",
+        "ast.h": "c",
+        "ctype.h": "c"
     }   
 }

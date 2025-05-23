@@ -2,8 +2,19 @@
 #include "../Headers/ADT_STRUCTS.h"
 #include "../Headers/HashTable.h"
 
-static int hashFunction(int id, int size) {
+int hashFunction(int id, int size) {
     return (id < 0 ? -id : id) % size;
+}
+// djb2 by Dan Bernstein.
+int str_hashcode(STRING *s){
+    unsigned long hash = 5381;
+    int c;
+
+    char *temp = s->str;
+    while ((c = *temp++))
+        hash = ((hash << 5) + hash) + c; /* hash * 33 + c */
+
+    return hash;
 }
 
 HashTable* createHashTable(int size) {

@@ -2,6 +2,7 @@
 #include "ADT_STRUCTS.h"
 #include "Template.h"
 #include "Stack.h"
+#include "AST.h"
 
 typedef enum{NONE, PUSH, POP} STACK_ACTION;
 typedef void (*StackActionFunc)(Stack *stack, TOKEN_CATEGORY category);
@@ -10,6 +11,7 @@ typedef void (*StackActionFunc)(Stack *stack, TOKEN_CATEGORY category);
 typedef struct SyntaxEdge{
     TOKEN_CATEGORY type;
     STACK_ACTION action;
+    BuilderASTFunc builderFunc;
     struct SyntaxVertex *dest;
     struct SyntaxEdge *left, *right;
 }SyntaxEdge;
@@ -32,7 +34,7 @@ SyntaxVertex *createSyntaxVertex(SyntaxGraph *graph);
 SyntaxGraph* createSyntaxGraph();
 SyntaxEdge* createSyntaxEdge(TOKEN_CATEGORY category, SyntaxVertex *dest);
 void insertSyntaxEdge(SyntaxEdge** edges, SyntaxEdge *newEdge);
-void addSyntaxEdge(SyntaxVertex *curr, TOKEN_CATEGORY category, SyntaxVertex *dest, STACK_ACTION action);
+void addSyntaxEdge(SyntaxVertex *curr, TOKEN_CATEGORY category, SyntaxVertex *dest, STACK_ACTION action, BuilderASTFunc builderFunc);
 SyntaxEdge *SyntaxFindNextEdge(SyntaxEdge *edge, TOKEN_CATEGORY category);
 
 void printSyntaxEdgesTypes(SyntaxEdge *e);

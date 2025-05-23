@@ -4,6 +4,9 @@
 #include "../Headers/HashTable.h"
 #include <ctype.h>
 
+
+LexerVertex *id_number;
+
 LexerVertex *createVertexWithIdenifierEdges(LexerGraph *DFA, char *lexeme){
     LexerVertex *newVertex = createVertex(Accepting, TOKEN_IDENTIFIER, DFA);
 
@@ -17,6 +20,9 @@ LexerVertex *createVertexWithIdenifierEdges(LexerGraph *DFA, char *lexeme){
     }
     for(c = 'A'; c <= 'Z'; c++){
         addEdge(newVertex, c, DFA->identifierVertex);
+    }
+    for(c = '0'; c <= '9'; c++){
+        addEdge(newVertex, c, id_number);
     }
     // printf("Adding edges to vertex %c\n", *lexeme);
     return newVertex;
@@ -53,7 +59,6 @@ void AddLexerConnectedComponent(Token* token, LexerGraph *DFA){
 void initIdenifierSubgraph(LexerGraph *DFA){
     DFA->identifierVertex = createVertex(Accepting, TOKEN_IDENTIFIER, DFA);
     LexerVertex *current = DFA->identifierVertex;
-    LexerVertex *next = createVertex(Accepting, TOKEN_IDENTIFIER, DFA);
     char c;
 
     for(c = 'a'; c <= 'z'; c++){
@@ -65,8 +70,8 @@ void initIdenifierSubgraph(LexerGraph *DFA){
         addEdge(current, c, current);
     }
     for(c = '0'; c <= '9'; c++){
-        addEdge(current, c, next);
-        addEdge(next, c, next);
+        addEdge(current, c, id_number);
+        addEdge(id_number, c, id_number);
     }
 }
 void initNumbersSubgraph(LexerGraph *DFA){
@@ -85,6 +90,7 @@ LexerGraph *CreateDFA(HashTable *symbolTable) {
     LexerGraph *DFA = createGraph();
     DFA->startVertex = createVertex(Accepting, NO_TOKEN, DFA);
 
+    id_number = createVertex(Accepting, TOKEN_IDENTIFIER, DFA);
     initNumbersSubgraph(DFA);
     initIdenifierSubgraph(DFA);
 
